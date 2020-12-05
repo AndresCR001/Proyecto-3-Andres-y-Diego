@@ -103,7 +103,7 @@ public class controlador extends javax.swing.JFrame implements Runnable {
         
         //repartimos la informacion por medio de sockets
         enviarJSON(getJSON()); //enviamos el JSON al modelo para actualizar los datos
-        enviarJSONVista(getJSON());// enviamos el JSON a la vista para que este actualizada 
+        //enviarJSONVista(getJSON());// enviamos el JSON a la vista para que este actualizada 
     }
     
     private void enviarJSON(JSONObject json) //--> modelo
@@ -124,23 +124,7 @@ public class controlador extends javax.swing.JFrame implements Runnable {
         }
     }
     
-    private void enviarJSONVista(JSONObject json) //--> Vista
-    {
-        try{
-        //enviar constantemente el JSON
-
-        Socket socket = new Socket("localhost",1111);//IP y puerto // puero 1001 para enviar de vuelta informacion
-        DataOutputStream enviarJSON = new DataOutputStream(socket.getOutputStream()); 
-
-
-        enviarJSON.writeUTF(json.toString());
-
-        socket.close();
-                
-        }catch(IOException e){
-            System.out.println(e);
-        }
-    }
+    
     
     /*private String BtoS(Boolean iniciar){
         if(iniciar){

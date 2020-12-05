@@ -78,6 +78,8 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         setSpawnsArray(coordSpaws);
         setActiveButtons(ActButtons);
         setUpdateScreenScore(coordMarcador);
+        
+        enviarJSONVista(JSON);
     }
     
     
@@ -123,6 +125,23 @@ public class modelo extends javax.swing.JFrame implements Runnable {
 
         }catch(IOException e){
             System.out.println("Error(MODELO): " + e);
+        }
+    }
+    private void enviarJSONVista(JSONObject json) //--> Vista
+    {
+        try{
+        //enviar constantemente el JSON
+
+        Socket socket = new Socket("localhost",1111);//IP y puerto // puero 1001 para enviar de vuelta informacion
+        DataOutputStream enviarJSON = new DataOutputStream(socket.getOutputStream()); 
+
+
+        enviarJSON.writeUTF(json.toString());
+
+        socket.close();
+                
+        }catch(IOException e){
+            System.out.println(e);
         }
     }
     
