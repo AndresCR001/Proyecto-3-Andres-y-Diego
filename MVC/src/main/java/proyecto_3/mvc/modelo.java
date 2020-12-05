@@ -12,7 +12,7 @@ import org.json.*;
 
 public class modelo extends javax.swing.JFrame implements Runnable {
     
-    public String JSON;
+    public JSONObject JSON;
     public boolean iniciar;
     public int pixeles;
     public JSONArray updateScreenPixel= new JSONArray();
@@ -50,6 +50,9 @@ public class modelo extends javax.swing.JFrame implements Runnable {
             DataInputStream recibirJSON = new DataInputStream(misocket.getInputStream());
             String entrada = recibirJSON.readUTF(); //guardamos los datos recibidos
             System.out.println(entrada);
+            JSONObject json = new JSONObject(entrada);
+            setJSON(json);
+            setActualizar();
             
             servidor.close();
                 
@@ -58,52 +61,77 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         }
     }
     
+    public void setActualizar(){
+        JSONObject JSON = getJSON();
+        System.out.println("SetActualizar: " + getJSON());
+        
+        Boolean juego = JSON.getBoolean("Juego");
+        int pixeles = JSON.getInt("Pixeles");
+        JSONArray coordIniciales = JSON.getJSONArray("Coordenadas Iniciales");
+        JSONArray coordSpaws = JSON.getJSONArray("Coordenadas de SPAWN");
+        JSONArray ActButtons = JSON.getJSONArray("Lista de activacion de botones");
+        JSONArray coordMarcador = JSON.getJSONArray("Coordenadas de Marcador");
+        
+        setIniciar(juego);
+        setPixeles(pixeles);
+        setUpdateScreenPixel(coordIniciales);
+        setSpawnsArray(coordSpaws);
+        setActiveButtons(ActButtons);
+        setUpdateScreenScore(coordMarcador);
+    }
+    
+    
     public void crearJSON()
-   { //escribimos el JSON con todas las solicitudes
+    { //escribimos el JSON con todas las solicitudes
        
        //se declara el valor de la informacion para tener una estructura inicial
        //pasar esto a una funcion aparte para actualizar los datos del modelo constantemente
-        this.setIniciar(true);
+        this.setIniciar(false);
         this.setPixeles(51);
         System.out.println("Faltan Updates");
         this.setUpdateScreenPixel(getScreen());
         this.setSpawnsArray(getSpawns());
-        this.setUpdateScreenPixel(getScoreScreen());
+        this.setActiveButtons(getButtons());
+        this.setUpdateScreenScore(getScoreScreen());
         //-----------------------------------------------------------
         
        
         JSONObject Sistema = new JSONObject();//contiene todos los datos, tanto del Jugador 1 como el de los enemigos/consumibles
         
         Sistema.put("Juego",isIniciar());//valor true o false que proviene del btn iniciar juego
-        Sistema.put("Pixles",getPixeles());
+        Sistema.put("Pixeles",getPixeles());
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         Sistema.put("Coordenadas de SPAWN",getSpawnsArray());//agregar lista de SpawnsArray donde spawnean enemigos o consumibles dependiendo de los requerimientos del juego
-        Sistema.put("Lista de activacion de botones ", getActiveButtons());
+        Sistema.put("Lista de activacion de botones", getActiveButtons());
         Sistema.put("Coordenadas de Marcador",getUpdateScreenScore());
         
         enviarJSON(Sistema);//se encarga de realizar la conexion y mandar el JSON
        
-   }
+    }
     private void enviarJSON(JSONObject json) 
     {
-        System.out.println("Enviando JSON");//se envia la iformacion al controlador PUERTO: 1011;
+        System.out.println("Enviando JSON");//se envia la informacion al controlador PUERTO: xxxx;
         try{
-        //enviar constantemente el JSON
-        Socket socket = new Socket("localhost",1011);//IP y puerto//iniciamos el socket por donde nos comunicaremos con el controlador
-        DataOutputStream enviarJSON = new DataOutputStream(socket.getOutputStream()); 
-        enviarJSON.writeUTF(json.toString());
-        
-        socket.close();
-        
-        System.out.println("Se envio el siguiente JSON: "+json.toString());
+            //enviar constantemente el JSON
+            
+            Socket socket = new Socket("localhost",212);//IP y puerto//iniciamos el socket por donde nos comunicaremos con el controlador
+            DataOutputStream enviarJSON = new DataOutputStream(socket.getOutputStream()); 
+            enviarJSON.writeUTF(json.toString());
 
-        
-                
+            socket.close();
+            System.out.println("Se envio el siguiente JSON: "+json.toString());
+
         }catch(IOException e){
-            System.out.println(e);
+            System.out.println("Error(MODELO): " + e);
         }
-        
-        
+    }
+    
+    public JSONObject getJSON() {
+        return JSON;
+    }
+
+    public void setJSON(JSONObject JSON) {
+        this.JSON = JSON;
     }
     public JSONArray getActiveButtons() {
         return ActiveButtons;
@@ -178,30 +206,38 @@ public class modelo extends javax.swing.JFrame implements Runnable {
             16:verde
         
         */
-        int j = 0;
-        for (int x = 0; x<= 51 ;x++){
-            for(int y = 0; x<= 51;x++){
-                
-                if (x==0){lista.put(1);}//creamos el marco del juego
-                    
-                if(y == 1 || y == 50){lista.put(1);}
-                
-            }
-            
-        }
-        //lista.add()
+        
+        //pernsar par que usar esta lista 
+        
         return lista;
     }
 
     private JSONArray getSpawns() {
         JSONArray lista= new JSONArray();
         //crear lista de las coordenadas de spawn
+        
+        lista.put(652);//personaje
+        lista.put(3613);//enemigo
+        lista.put(3713);//enemigo
+        lista.put(3813);//enemigo
+        
         return lista;
     }
 
     private JSONArray getScoreScreen() {
          JSONArray lista= new JSONArray();
          //crear lista de las coordenadas del score
+         //definir los valores de las casillas que serán utilizadas para el marcador 
+        
+        return lista;
+    }
+    private JSONArray getButtons(){
+        JSONArray lista = new JSONArray();
+        
+        lista.put(0);
+        lista.put(0);
+        lista.put(0);
+        lista.put(0);
         
         return lista;
     }

@@ -20,7 +20,7 @@ import org.json.simple.parser.ParseException;
  */
 public class controlador extends javax.swing.JFrame implements Runnable { 
     
-    public String JSON;
+    public JSONObject JSON;
     public boolean iniciar;
     public int pixeles;
     public JSONArray updateScreenPixel= new JSONArray();
@@ -47,15 +47,16 @@ public class controlador extends javax.swing.JFrame implements Runnable {
     public void run() {
         System.out.println("Entra al run: Controlador"); // recibimos los datos del puerto 1011 que proviene de modelo
        try{
-            ServerSocket servidor = new ServerSocket(1011); //servidor//indicamos que puerto utilizar (socket para modelo-controlador)
+            ServerSocket servidor = new ServerSocket(212); //servidor//indicamos que puerto utilizar (socket para modelo-controlador)
             Socket misocket = servidor.accept();
             
             DataInputStream recibirJSON = new DataInputStream(misocket.getInputStream());
             System.out.println("Se acepto el servidor en el controlador");
             String entrada = recibirJSON.readUTF(); //guardamos los datos recibidos
             System.out.println("JSON entrada:" +entrada);
-            setJSON(entrada);
+            JSONObject json = new JSONObject(entrada); //definimos la entrada como un JSON
             
+            setJSON(json);
             
             servidor.close();
             
@@ -64,29 +65,45 @@ public class controlador extends javax.swing.JFrame implements Runnable {
             System.out.println("error_controlador: " + e);
         }
     }
-    
+    //{"Lista de activacion de botones":[],"Coordenadas Iniciales":[],"Juego":true,"Coordenadas de Marcador":[],"Pixeles":51,"Coordenadas de SPAWN":[]}
     public void SistemaControlador(){
         System.out.println("entrando al sistema controlador");
         
         System.out.println("JSON: "+getJSON());
+        JSONObject entradaJSON = getJSON();
+        
+        
+        int pixeles = entradaJSON.getInt("Pixeles");
+        JSONArray coordIniciales = entradaJSON.getJSONArray("Coordenadas Iniciales");
+        JSONArray coordSpaws = entradaJSON.getJSONArray("Coordenadas de SPAWN");
+        JSONArray ActButtons = entradaJSON.getJSONArray("Lista de activacion de botones");
+        JSONArray coordMarcador = entradaJSON.getJSONArray("Coordenadas de Marcador");
+        
+        
+        setPixeles(pixeles);
+        setUpdateScreenPixel(coordIniciales);
+        setSpawnsArray(coordSpaws);
+        setActiveButtons(ActButtons);
+        setUpdateScreenScore(coordMarcador);
+        
         JSONObject json = new JSONObject();
         
         //reformulamos el JSON
-        json.put("Juego",BtoS(isIniciar()));//convertimos iniciar en un string para poder escibirlo en un JSON
-        json.put("Pixles",getPixeles());
+        json.put("Juego",isIniciar());//convertimos iniciar en un string para poder escibirlo en un JSON
+        json.put("Pixeles",getPixeles());
         json.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         json.put("Coordenadas de SPAWN",getSpawnsArray());//agregar lista de SpawnsArray donde spawnean enemigos o consumibles dependiendo de los requerimientos del juego
-        json.put("Lista de activacion de botones ", getActiveButtons());
+        json.put("Lista de activacion de botones", getActiveButtons());
         json.put("Coordenadas de Marcador",getUpdateScreenScore());
                 
                 
         System.out.println("Enviando JSON desde SistemaControlador");
-        setJSON(json.toString());//json debe ser de tipo Objeto, investigar como se realiza 
+        setJSON(json);//json debe ser de tipo Objeto, investigar como se realiza 
         System.out.println(json);
         
         //repartimos la informacion por medio de sockets
-        enviarJSON(json); //enviamos el JSON al modelo para actualizar los datos
-        enviarJSONVista(json);// enviamos el JSON a la vista para que este actualizada 
+        enviarJSON(getJSON()); //enviamos el JSON al modelo para actualizar los datos
+        enviarJSONVista(getJSON());// enviamos el JSON a la vista para que este actualizada 
     }
     
     private void enviarJSON(JSONObject json) //--> modelo
@@ -125,20 +142,20 @@ public class controlador extends javax.swing.JFrame implements Runnable {
         }
     }
     
-    private String BtoS(Boolean iniciar){
+    /*private String BtoS(Boolean iniciar){
         if(iniciar){
             return "true";
         }else{
             return "false";
         }
-    }
+    }*/
        
 
-    public String getJSON() {
+    public JSONObject getJSON() {
         return JSON;
     }
 
-    public void setJSON(String JSON) {
+    public void setJSON(JSONObject JSON) {
         this.JSON = JSON;
     }
 
@@ -205,35 +222,55 @@ public class controlador extends javax.swing.JFrame implements Runnable {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btnIniciar.setBackground(new java.awt.Color(0, 0, 0));
+        btnIniciar.setFont(new java.awt.Font("Stencil", 2, 12)); // NOI18N
+        btnIniciar.setForeground(new java.awt.Color(255, 204, 0));
         btnIniciar.setText("Iniciar juego");
+        btnIniciar.setBorderPainted(false);
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarActionPerformed(evt);
             }
         });
 
-        btnIzq.setText("Flecha Izquierda");
+        btnIzq.setBackground(new java.awt.Color(0, 0, 0));
+        btnIzq.setFont(new java.awt.Font("Stencil", 2, 24)); // NOI18N
+        btnIzq.setForeground(new java.awt.Color(255, 204, 0));
+        btnIzq.setText("<");
+        btnIzq.setBorderPainted(false);
         btnIzq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIzqActionPerformed(evt);
             }
         });
 
-        btnArriba.setText("Flecha Arriba");
+        btnArriba.setBackground(new java.awt.Color(0, 0, 0));
+        btnArriba.setFont(new java.awt.Font("Stencil", 2, 24)); // NOI18N
+        btnArriba.setForeground(new java.awt.Color(255, 204, 0));
+        btnArriba.setText("^");
+        btnArriba.setBorderPainted(false);
         btnArriba.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnArribaActionPerformed(evt);
             }
         });
 
-        btnDerecha.setText("Flecha Derecha");
+        btnDerecha.setBackground(new java.awt.Color(0, 0, 0));
+        btnDerecha.setFont(new java.awt.Font("Stencil", 2, 24)); // NOI18N
+        btnDerecha.setForeground(new java.awt.Color(255, 204, 0));
+        btnDerecha.setText(">");
+        btnDerecha.setBorderPainted(false);
         btnDerecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDerechaActionPerformed(evt);
             }
         });
 
-        btnAbajo.setText("Flecha Abajo");
+        btnAbajo.setBackground(new java.awt.Color(0, 0, 0));
+        btnAbajo.setFont(new java.awt.Font("Stencil", 2, 24)); // NOI18N
+        btnAbajo.setForeground(new java.awt.Color(255, 204, 0));
+        btnAbajo.setText("v");
+        btnAbajo.setBorderPainted(false);
         btnAbajo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAbajoActionPerformed(evt);
@@ -244,40 +281,37 @@ public class controlador extends javax.swing.JFrame implements Runnable {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(btnIniciar)
-                .addGap(55, 55, 55)
-                .addComponent(btnIzq)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDerecha)
-                .addGap(32, 32, 32))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
+                .addComponent(btnIniciar)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnArriba)
-                        .addGap(105, 105, 105))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnAbajo)
-                        .addGap(114, 114, 114))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnAbajo)
+                            .addComponent(btnArriba))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnIzq)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addComponent(btnDerecha)
+                        .addGap(36, 36, 36))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(139, Short.MAX_VALUE)
-                .addComponent(btnArriba)
-                .addGap(9, 9, 9)
+                .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnIniciar)
-                        .addGap(43, 43, 43)
-                        .addComponent(btnAbajo)
-                        .addGap(40, 40, 40))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnIzq)
-                            .addComponent(btnDerecha))
-                        .addGap(91, 91, 91))))
+                    .addComponent(btnArriba)
+                    .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDerecha)
+                    .addComponent(btnIzq))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAbajo)
+                .addContainerGap())
         );
 
         pack();
@@ -300,10 +334,8 @@ public class controlador extends javax.swing.JFrame implements Runnable {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         
-        System.out.println("Conexion realizada");
         setIniciar(true);
         System.out.println("Se establecieron nuevos valores");
-
 
         SistemaControlador(); // se llama al sistema controlador para actualizar socketDATA
         System.out.println("Se envio el archivo de vuelta");
