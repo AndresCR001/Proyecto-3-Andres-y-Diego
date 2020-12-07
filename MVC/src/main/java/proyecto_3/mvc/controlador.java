@@ -23,8 +23,8 @@ public class controlador extends javax.swing.JFrame implements Runnable {
     public JSONObject JSON;
     public boolean iniciar;
     public int pixeles;
-    public JSONArray updateScreenPixel= new JSONArray();
-    public JSONArray SpawnsArray = new JSONArray();
+    public JSONObject updateScreenPixel= new JSONObject();
+    public JSONObject SpawnsArray = new JSONObject();
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
     
@@ -51,9 +51,8 @@ public class controlador extends javax.swing.JFrame implements Runnable {
             Socket misocket = servidor.accept();
             
             DataInputStream recibirJSON = new DataInputStream(misocket.getInputStream());
-            System.out.println("Se acepto el servidor en el controlador");
             String entrada = recibirJSON.readUTF(); //guardamos los datos recibidos
-            System.out.println("JSON entrada:" +entrada);
+            System.out.println("JSON entrada CONTROLADOR:" +entrada);
             JSONObject json = new JSONObject(entrada); //definimos la entrada como un JSON
             
             setJSON(json);
@@ -67,23 +66,19 @@ public class controlador extends javax.swing.JFrame implements Runnable {
     }
     //{"Lista de activacion de botones":[],"Coordenadas Iniciales":[],"Juego":true,"Coordenadas de Marcador":[],"Pixeles":51,"Coordenadas de SPAWN":[]}
     public void SistemaControlador(){
-        System.out.println("entrando al sistema controlador");
-        
-        System.out.println("JSON: "+getJSON());
+        System.out.println("Entrando al sistema controlador");
         JSONObject entradaJSON = getJSON();
         
         
         int pixeles = entradaJSON.getInt("Pixeles");
-        JSONArray coordIniciales = entradaJSON.getJSONArray("Coordenadas Iniciales");
-        JSONArray coordSpaws = entradaJSON.getJSONArray("Coordenadas de SPAWN");
-        JSONArray ActButtons = entradaJSON.getJSONArray("Lista de activacion de botones");
+        JSONObject coordIniciales = entradaJSON.getJSONObject("Coordenadas Iniciales");
+        JSONObject coordSpaws = entradaJSON.getJSONObject("Coordenadas de SPAWN");
         JSONArray coordMarcador = entradaJSON.getJSONArray("Coordenadas de Marcador");
         
         
         setPixeles(pixeles);
         setUpdateScreenPixel(coordIniciales);
         setSpawnsArray(coordSpaws);
-        setActiveButtons(ActButtons);
         setUpdateScreenScore(coordMarcador);
         
         JSONObject json = new JSONObject();
@@ -96,18 +91,14 @@ public class controlador extends javax.swing.JFrame implements Runnable {
         json.put("Lista de activacion de botones", getActiveButtons());
         json.put("Coordenadas de Marcador",getUpdateScreenScore());
                 
-                
-        System.out.println("Enviando JSON desde SistemaControlador");
-        setJSON(json);//json debe ser de tipo Objeto, investigar como se realiza 
-        System.out.println(json);
-        
-        //repartimos la informacion por medio de sockets
+        System.out.println("Enviar: " + json);
+        setJSON(json);
         enviarJSON(getJSON()); //enviamos el JSON al modelo para actualizar los datos
-        //enviarJSONVista(getJSON());// enviamos el JSON a la vista para que este actualizada 
     }
     
     private void enviarJSON(JSONObject json) //--> modelo
     {
+        System.out.println("Enviando...");
         try{
         //enviar constantemente el JSON
 
@@ -124,8 +115,6 @@ public class controlador extends javax.swing.JFrame implements Runnable {
         }
     }
     
-    
-    
     /*private String BtoS(Boolean iniciar){
         if(iniciar){
             return "true";
@@ -134,7 +123,6 @@ public class controlador extends javax.swing.JFrame implements Runnable {
         }
     }*/
        
-
     public JSONObject getJSON() {
         return JSON;
     }
@@ -159,19 +147,19 @@ public class controlador extends javax.swing.JFrame implements Runnable {
         this.pixeles = pixeles;
     }
 
-    public JSONArray getUpdateScreenPixel() {
+    public JSONObject getUpdateScreenPixel() {
         return updateScreenPixel;
     }
 
-    public void setUpdateScreenPixel(JSONArray updateScreenPixel) {
+    public void setUpdateScreenPixel(JSONObject updateScreenPixel) {
         this.updateScreenPixel = updateScreenPixel;
     }
 
-    public JSONArray getSpawnsArray() {
+    public JSONObject getSpawnsArray() {
         return SpawnsArray;
     }
 
-    public void setSpawnsArray(JSONArray SpawnsArray) {
+    public void setSpawnsArray(JSONObject SpawnsArray) {
         this.SpawnsArray = SpawnsArray;
     }
 
@@ -314,12 +302,19 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 btnLista.put(new Integer(0));//derecha
                 
         setActiveButtons(btnLista);
+        SistemaControlador();
     }//GEN-LAST:event_btnArribaActionPerformed
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         
+        JSONArray botonesIniciales = new JSONArray();
+        botonesIniciales.put(0);
+        botonesIniciales.put(0);
+        botonesIniciales.put(0);
+        botonesIniciales.put(0);
+        
         setIniciar(true);
-        System.out.println("Se establecieron nuevos valores");
+        setActiveButtons(botonesIniciales);
 
         SistemaControlador(); // se llama al sistema controlador para actualizar socketDATA
         System.out.println("Se envio el archivo de vuelta");
@@ -329,9 +324,6 @@ public class controlador extends javax.swing.JFrame implements Runnable {
 
     private void btnIzqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzqActionPerformed
         //extraer el valor X del JSON y restarlo en uno al presionar
-        
-        
-        
         JSONArray btnLista = new JSONArray(); //arreglo para establecer los valores de los botones que estan siendo presionados
                 btnLista.put(new Integer(0));//arriba
                 btnLista.put(new Integer(0));//abajo
@@ -339,13 +331,12 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 btnLista.put(new Integer(0));//derecha
                 
         setActiveButtons(btnLista);
+        SistemaControlador();
+
     }//GEN-LAST:event_btnIzqActionPerformed
 
     private void btnDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDerechaActionPerformed
         //extraer el valor X del JSON e incrementarlo en uno 
-        
-        
-        
         JSONArray btnLista = new JSONArray(); //arreglo para establecer los valores de los botones que estan siendo presionados
                 btnLista.put(new Integer(0));//arriba
                 btnLista.put(new Integer(0));//abajo
@@ -353,13 +344,12 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 btnLista.put(new Integer(1));//derecha
                 
         setActiveButtons(btnLista);
+        SistemaControlador();
+
     }//GEN-LAST:event_btnDerechaActionPerformed
 
     private void btnAbajoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbajoActionPerformed
         //extraer el valor del JSON en Y y restarle uno.
-        
-        
-        
         JSONArray btnLista = new JSONArray(); //arreglo para establecer los valores de los botones que estan siendo presionados
                 btnLista.put(new Integer(0));//arriba
                 btnLista.put(new Integer(1));//abajo
@@ -367,6 +357,8 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 btnLista.put(new Integer(0));//derecha
                 
         setActiveButtons(btnLista);
+        SistemaControlador();
+
     }//GEN-LAST:event_btnAbajoActionPerformed
     
     

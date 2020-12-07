@@ -15,8 +15,8 @@ public class modelo extends javax.swing.JFrame implements Runnable {
     public JSONObject JSON;
     public boolean iniciar;
     public int pixeles;
-    public JSONArray updateScreenPixel= new JSONArray();
-    public JSONArray SpawnsArray = new JSONArray();
+    public JSONObject updateScreenPixel= new JSONObject();
+    public JSONObject SpawnsArray = new JSONObject();
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
     
@@ -41,19 +41,17 @@ public class modelo extends javax.swing.JFrame implements Runnable {
     public void run() {
         
         System.out.println("Entra al run: Modelo");
+        if (crear){crearJSON();crear=false;}// inicializa el primer envio de datos
         try{
-            System.out.println("Crear JSON");
-            if (crear){crearJSON();crear=false;}// inicializa el primer envio de datos
             
             ServerSocket servidor = new ServerSocket(1001); //servidor
             Socket misocket = servidor.accept();
             DataInputStream recibirJSON = new DataInputStream(misocket.getInputStream());
             String entrada = recibirJSON.readUTF(); //guardamos los datos recibidos
-            System.out.println(entrada);
             JSONObject json = new JSONObject(entrada);
             setJSON(json);
             setActualizar();
-            
+            System.out.println("Cerrando server 1001");
             servidor.close();
                 
         }catch(IOException e){
@@ -67,8 +65,8 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         
         Boolean juego = JSON.getBoolean("Juego");
         int pixeles = JSON.getInt("Pixeles");
-        JSONArray coordIniciales = JSON.getJSONArray("Coordenadas Iniciales");
-        JSONArray coordSpaws = JSON.getJSONArray("Coordenadas de SPAWN");
+        JSONObject coordIniciales = JSON.getJSONObject("Coordenadas Iniciales");
+        JSONObject coordSpaws = JSON.getJSONObject("Coordenadas de SPAWN");
         JSONArray ActButtons = JSON.getJSONArray("Lista de activacion de botones");
         JSONArray coordMarcador = JSON.getJSONArray("Coordenadas de Marcador");
         
@@ -79,7 +77,7 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         setActiveButtons(ActButtons);
         setUpdateScreenScore(coordMarcador);
         
-        enviarJSONVista(JSON);
+        enviarJSONVista(JSON);// enviamos el JSON a la vista para que este actualizada
     }
     
     
@@ -90,7 +88,6 @@ public class modelo extends javax.swing.JFrame implements Runnable {
        //pasar esto a una funcion aparte para actualizar los datos del modelo constantemente
         this.setIniciar(false);
         this.setPixeles(51);
-        System.out.println("Faltan Updates");
         this.setUpdateScreenPixel(getScreen());
         this.setSpawnsArray(getSpawns());
         this.setActiveButtons(getButtons());
@@ -112,7 +109,7 @@ public class modelo extends javax.swing.JFrame implements Runnable {
     }
     private void enviarJSON(JSONObject json) 
     {
-        System.out.println("Enviando JSON");//se envia la informacion al controlador PUERTO: xxxx;
+        //se envia la informacion al controlador PUERTO: xxxx;
         try{
             //enviar constantemente el JSON
             
@@ -169,10 +166,10 @@ public class modelo extends javax.swing.JFrame implements Runnable {
     
     
 
-    public JSONArray getUpdateScreenPixel() {
+    public JSONObject getUpdateScreenPixel() {
         return updateScreenPixel;
     }
-    public void setUpdateScreenPixel(JSONArray updateScreenPixel) {
+    public void setUpdateScreenPixel(JSONObject updateScreenPixel) {
         this.updateScreenPixel = updateScreenPixel;
     }
     
@@ -187,10 +184,10 @@ public class modelo extends javax.swing.JFrame implements Runnable {
 
     
     
-    public JSONArray getSpawnsArray() {
+    public JSONObject getSpawnsArray() {
         return SpawnsArray;
     }
-    public void setSpawnsArray(JSONArray SpawnsArray) {
+    public void setSpawnsArray(JSONObject SpawnsArray) {
         this.SpawnsArray = SpawnsArray;
     }
 
@@ -203,8 +200,7 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         this.updateScreenScore = updateScreenScore;
     }
     
-    private JSONArray getScreen() {
-         JSONArray lista= new JSONArray();
+    private JSONObject getScreen() {
         //con este par de ciclos de for estamos indiccando de que color va aser la casilla
         /* vamos a implementar la sigiente lista
             1:amarillo
@@ -225,22 +221,42 @@ public class modelo extends javax.swing.JFrame implements Runnable {
             16:verde
         
         */
+        JSONObject XY_ = new JSONObject();
         
-        //pernsar par que usar esta lista 
+        JSONArray XY = new JSONArray();
+        XY.put(45);
+        XY.put(25);
         
-        return lista;
+        XY_.put("jugador", XY);
+        
+        
+        return XY_;
     }
 
-    private JSONArray getSpawns() {
-        JSONArray lista= new JSONArray();
-        //crear lista de las coordenadas de spawn
+    private JSONObject getSpawns() {
+        //declaramos los valores de las coordenadas donde van a estar ubicados los enemigos
         
-        lista.put(652);//personaje
-        lista.put(3613);//enemigo
-        lista.put(3713);//enemigo
-        lista.put(3813);//enemigo
+        JSONObject XY_ = new JSONObject();
         
-        return lista;
+        JSONArray enemigo1 = new JSONArray(); 
+        enemigo1.put(5);//y
+        enemigo1.put(10);//x
+        
+        JSONArray enemigo2 = new JSONArray();
+        enemigo2.put(5);
+        enemigo2.put(25);
+        
+        JSONArray enemigo3 = new JSONArray();
+        enemigo3.put(5);
+        enemigo3.put(40);
+        
+        
+        //color - enemigo 
+        XY_.put("enemigo1", enemigo1);
+        XY_.put("enemigo2", enemigo2);
+        XY_.put("enemigo3", enemigo3);
+        
+        return XY_;
     }
 
     private JSONArray getScoreScreen() {

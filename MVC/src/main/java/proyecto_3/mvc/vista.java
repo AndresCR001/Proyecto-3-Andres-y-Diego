@@ -21,8 +21,8 @@ public class vista extends javax.swing.JFrame implements Runnable {
     public JSONObject JSON;
     public boolean iniciar;
     public int pixeles;
-    public JSONArray updateScreenPixel= new JSONArray();
-    public JSONArray SpawnsArray = new JSONArray();
+    public JSONObject updateScreenPixel= new JSONObject();
+    public JSONObject SpawnsArray = new JSONObject();
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
 
@@ -87,9 +87,8 @@ public class vista extends javax.swing.JFrame implements Runnable {
         ServerSocket servidor = new ServerSocket(1111); //servidor//indicamos que puerto utilizar (socket para vista-controlador)
         Socket misocket = servidor.accept();
         DataInputStream recibirJSON = new DataInputStream(misocket.getInputStream());
-        System.out.println("Se acepto el servidor en el controlador");
         String entrada = recibirJSON.readUTF(); //guardamos los datos recibidos
-        System.out.println("JSON entrada:" +entrada);
+        System.out.println("JSON entrada para VISTA:" +entrada);
         JSONObject json = new JSONObject(entrada); //definimos la entrada como u
         setJSON(json);
 
@@ -104,7 +103,7 @@ public class vista extends javax.swing.JFrame implements Runnable {
         };
     }
     
-    public void printCourseDetails(boolean Iniciar, int pixeles, JSONArray updateScreenPixel,JSONArray SpawnsArray,JSONArray updateScreenScore){
+    public void printCourseDetails(boolean Iniciar, int pixeles, JSONObject updateScreenPixel,JSONObject SpawnsArray,JSONObject updateScreenScore){
           System.out.println("Configuracion del juego: ");
           System.out.println("Iniciar Juego: " + Iniciar);
           System.out.println("Cantidad de Pixeles: " + pixeles);
@@ -121,8 +120,8 @@ public class vista extends javax.swing.JFrame implements Runnable {
         
         Boolean juego = JSON.getBoolean("Juego");
         int pixeles = JSON.getInt("Pixeles");
-        JSONArray coordIniciales = JSON.getJSONArray("Coordenadas Iniciales");
-        JSONArray coordSpaws = JSON.getJSONArray("Coordenadas de SPAWN");
+        JSONObject coordIniciales = JSON.getJSONObject("Coordenadas Iniciales");
+        JSONObject coordSpaws = JSON.getJSONObject("Coordenadas de SPAWN");
         JSONArray ActButtons = JSON.getJSONArray("Lista de activacion de botones");
         JSONArray coordMarcador = JSON.getJSONArray("Coordenadas de Marcador");
         
@@ -133,7 +132,7 @@ public class vista extends javax.swing.JFrame implements Runnable {
         setActiveButtons(ActButtons);
         setUpdateScreenScore(coordMarcador);
         
-        if (isIniciar()){iniciarPantalla(isIniciar());}
+        if (isIniciar()){iniciarPantalla(isIniciar(), getUpdateScreenPixel(), getSpawnsArray(), getActiveButtons());}
    
     }
     
@@ -160,19 +159,19 @@ public class vista extends javax.swing.JFrame implements Runnable {
         this.pixeles = pixeles;
     }
 
-    public JSONArray getUpdateScreenPixel() {
+    public JSONObject getUpdateScreenPixel() {
         return updateScreenPixel;
     }
 
-    public void setUpdateScreenPixel(JSONArray updateScreenPixel) {
+    public void setUpdateScreenPixel(JSONObject updateScreenPixel) {
         this.updateScreenPixel = updateScreenPixel;
     }
 
-    public JSONArray getSpawnsArray() {
+    public JSONObject getSpawnsArray() {
         return SpawnsArray;
     }
 
-    public void setSpawnsArray(JSONArray SpawnsArray) {
+    public void setSpawnsArray(JSONObject SpawnsArray) {
         this.SpawnsArray = SpawnsArray;
     }
 
@@ -192,7 +191,7 @@ public class vista extends javax.swing.JFrame implements Runnable {
         this.ActiveButtons = ActiveButtons;
     }
     
-    public static void iniciarPantalla(boolean iniciar)
+    public static void iniciarPantalla(boolean iniciar, JSONObject InitPixel,JSONObject Spawns ,JSONArray ActiveButtons)
     {
         if (iniciar)
         {
@@ -201,7 +200,7 @@ public class vista extends javax.swing.JFrame implements Runnable {
 
 
             Ventana.setLayout(new GridLayout(1, 1));
-            Ventana.add(Pantalla());
+            Ventana.add(Pantalla(InitPixel, Spawns, ActiveButtons));
 
             Ventana.setLocationRelativeTo(null);
             Ventana.setPreferredSize(new Dimension(500, 500));
@@ -210,17 +209,53 @@ public class vista extends javax.swing.JFrame implements Runnable {
         }
        
     }
-    public static JPanel Pantalla(){
+    public static JPanel Pantalla(JSONObject InitPixel, JSONObject Spawns, JSONArray ActiveButtons){
+        
+        int up = ActiveButtons.getInt(0);//ARRIBA
+        int down = ActiveButtons.getInt(1);//ABAJO
+        int left = ActiveButtons.getInt(2);//L
+        int right = ActiveButtons.getInt(3);//R
+        
+        JSONArray jugador = InitPixel.getJSONArray("jugador");
+        int posX = jugador.getInt(1);
+        int posY = jugador.getInt(0);
+        
+        if (up == 1){posY+=1;}
+        if (down == 1){posY-=1;}
+        if (left == 1){posX-=1;}
+        if (right == 1){posX+=1;}
+        
+        
+        
+        JSONArray enemigo1 = Spawns.getJSONArray("enemigo1");
+        int enemigo1_posX = enemigo1.getInt(1);
+        int enemigo1_posY = enemigo1.getInt(0);
+        
+        JSONArray enemigo2 = Spawns.getJSONArray("enemigo2");
+        int enemigo2_posX = enemigo2.getInt(1);
+        int enemigo2_posY = enemigo2.getInt(0);
+        
+        JSONArray enemigo3 = Spawns.getJSONArray("enemigo3");
+        int enemigo3_posX = enemigo3.getInt(1);
+        int enemigo3_posY = enemigo3.getInt(0);
+        
+        
         JPanel panelPantalla = new JPanel();
         String[][] pixeles = new String [51][51]; // indicamos el volumen y la posicion de los pixeles 
         for(int y=0; y < pixeles.length; y++) {
             for(int x=0; x < pixeles[y].length; x++) {
                 
-               
                 final JButton jButton = new JButton(pixeles[y][x]);
                 panelPantalla.add(jButton);
+                
+                if (x == posX && y == posY){jButton.setBackground(Color.red);
+                
+                }else if ((x == enemigo1_posX && y == enemigo1_posY) || (x == enemigo2_posX && y == enemigo2_posY) || (x == enemigo3_posX && y == enemigo3_posY)){jButton.setBackground(Color.yellow);
+                    
+                }else{
                 jButton.setBackground(Color.BLACK);
                }
+            }
         }
         panelPantalla.setLayout(new GridLayout(51, 51));
         
