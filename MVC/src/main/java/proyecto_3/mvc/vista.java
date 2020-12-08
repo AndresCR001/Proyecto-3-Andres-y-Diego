@@ -220,6 +220,14 @@ public class vista extends javax.swing.JFrame implements Runnable {
         int posX = jugador.getInt(1);
         int posY = jugador.getInt(0);
         
+        Color cj;
+        if("red".equals(jugador.getString(2))){
+            cj = Color.red;
+        }
+        else{
+            cj = Color.green;
+        }
+        
         if (up == 1){posY+=1;}
         if (down == 1){posY-=1;}
         if (left == 1){posX-=1;}
@@ -231,13 +239,37 @@ public class vista extends javax.swing.JFrame implements Runnable {
         int enemigo1_posX = enemigo1.getInt(1);
         int enemigo1_posY = enemigo1.getInt(0);
         
+        Color c1;
+        if("cyan".equals(enemigo1.getString(2))){
+            c1 = Color.cyan;
+        }
+        else{
+            c1 = Color.gray;
+        }
+        
         JSONArray enemigo2 = Spawns.getJSONArray("enemigo2");
         int enemigo2_posX = enemigo2.getInt(1);
         int enemigo2_posY = enemigo2.getInt(0);
         
+        Color c2;
+        if("red".equals(enemigo2.getString(2))){
+            c2 = Color.red;
+        }
+        else{
+            c2 = Color.gray;
+        }
+        
         JSONArray enemigo3 = Spawns.getJSONArray("enemigo3");
         int enemigo3_posX = enemigo3.getInt(1);
         int enemigo3_posY = enemigo3.getInt(0);
+        
+        Color c3;
+        if("pink".equals(enemigo3.getString(2))){
+            c3 = Color.pink;
+        }
+        else{
+            c3 = Color.gray;
+        }
         
         
         JPanel panelPantalla = new JPanel();
@@ -248,12 +280,16 @@ public class vista extends javax.swing.JFrame implements Runnable {
                 final JButton jButton = new JButton(pixeles[y][x]);
                 panelPantalla.add(jButton);
                 
-                if (x == posX && y == posY){jButton.setBackground(Color.red);
+                if (x == posX && y == posY){jButton.setBackground(cj);
                 
-                }else if ((x == enemigo1_posX && y == enemigo1_posY) || (x == enemigo2_posX && y == enemigo2_posY) || (x == enemigo3_posX && y == enemigo3_posY)){jButton.setBackground(Color.yellow);
-                    
+                }else if ((x == enemigo1_posX && y == enemigo1_posY)){jButton.setBackground(c1);
+                
+                }else if ((x == enemigo2_posX && y == enemigo2_posY)){jButton.setBackground(c2);
+                
+                }else if ((x == enemigo3_posX && y == enemigo3_posY)){jButton.setBackground(c3);
+                
                 }else{
-                jButton.setBackground(Color.BLACK);
+                jButton.setBackground(Color.black);
                }
             }
         }

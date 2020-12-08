@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package proyecto_3.mvc;
 
 import com.google.gson.*;
@@ -10,7 +14,7 @@ import java.util.*;
 import org.json.*;
 
 
-public class modelo extends javax.swing.JFrame implements Runnable {
+public class Modelo2 extends javax.swing.JFrame implements Runnable {
     
     public JSONObject JSON;
     public boolean iniciar;
@@ -27,12 +31,12 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new modelo().setVisible(true);
+                new Modelo2().setVisible(true);
             }
         });
        
     }
-    public modelo(){
+    public Modelo2(){
        Thread hilo = new Thread(this);
        hilo.start();
     }
@@ -40,7 +44,7 @@ public class modelo extends javax.swing.JFrame implements Runnable {
     @Override
     public void run() {
         
-        System.out.println("Entra al run: Modelo");
+        System.out.println("Entra al run: Modelo2");
         if (crear){crearJSON();crear=false;}// inicializa el primer envio de datos
         try{
             
@@ -60,15 +64,15 @@ public class modelo extends javax.swing.JFrame implements Runnable {
     }
     
     public void setActualizar(){
-        JSONObject JSON = getJSON();
+        JSONObject json = getJSON();
         System.out.println("SetActualizar: " + getJSON());
         
-        Boolean juego = JSON.getBoolean("Juego");
-        int pixeles = JSON.getInt("Pixeles");
-        JSONObject coordIniciales = JSON.getJSONObject("Coordenadas Iniciales");
-        JSONObject coordSpaws = JSON.getJSONObject("Coordenadas de SPAWN");
-        JSONArray ActButtons = JSON.getJSONArray("Lista de activacion de botones");
-        JSONArray coordMarcador = JSON.getJSONArray("Coordenadas de Marcador");
+        Boolean juego = json.getBoolean("Juego");
+        int pixeles = json.getInt("Pixeles");
+        JSONObject coordIniciales = json.getJSONObject("Coordenadas Iniciales");
+        JSONObject coordSpaws = json.getJSONObject("Coordenadas de SPAWN");
+        JSONArray ActButtons = json.getJSONArray("Lista de activacion de botones");
+        JSONArray coordMarcador = json.getJSONArray("Coordenadas de Marcador");
         
         setIniciar(juego);
         setPixeles(pixeles);
@@ -77,7 +81,7 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         setActiveButtons(ActButtons);
         setUpdateScreenScore(coordMarcador);
         
-        enviarJSONVista(JSON);// enviamos el JSON a la vista para que este actualizada
+        enviarJSONVista(json);// enviamos el JSON a la vista para que este actualizada
     }
     
     
@@ -92,6 +96,7 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         this.setSpawnsArray(getSpawns());
         this.setActiveButtons(getButtons());
         this.setUpdateScreenScore(getScoreScreen());
+        System.out.println(getSpawns());
         //-----------------------------------------------------------
         
        
@@ -173,7 +178,6 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         this.updateScreenPixel = updateScreenPixel;
     }
     
-    
 
     public int getPixeles() {
         return pixeles;
@@ -201,7 +205,7 @@ public class modelo extends javax.swing.JFrame implements Runnable {
     }
     
     private JSONObject getScreen() {
-        //con este par de ciclos de for estamos indiccando de que color va a ser la casilla
+        //con este par de ciclos de for estamos indicando de que color va a ser la casilla
         /* vamos a implementar la sigiente lista
             1:amarillo
             2:azul
@@ -226,7 +230,7 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         JSONArray XY = new JSONArray();
         XY.put(45); //y
         XY.put(25); //x
-        XY.put("green"); //color
+        XY.put("yellow"); //color
         
         XY_.put("jugador", XY);
         
@@ -240,21 +244,20 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         JSONObject XY_ = new JSONObject();
         
         JSONArray enemigo1 = new JSONArray(); 
-        enemigo1.put(5);//y
-        enemigo1.put(10);//x
-        enemigo1.put("gray");//color
-        
+        enemigo1.put(24);//y
+        enemigo1.put(23);//x
+        enemigo1.put("cyan");//color
+             
         JSONArray enemigo2 = new JSONArray();
-        enemigo2.put(5);
+        enemigo2.put(24);
         enemigo2.put(25);
-        enemigo2.put("gray");//color
+        enemigo2.put("red");//color
         
         JSONArray enemigo3 = new JSONArray();
-        enemigo3.put(5);
-        enemigo3.put(40);
-        enemigo3.put("gray");//color
-        
-        
+        enemigo3.put(24);
+        enemigo3.put(27);
+        enemigo3.put("pink");//color
+                
         //color - enemigo 
         XY_.put("enemigo1", enemigo1);
         XY_.put("enemigo2", enemigo2);
@@ -348,8 +351,3 @@ public class modelo extends javax.swing.JFrame implements Runnable {
         }
         
     }*/
-
-    
-
-    
-
