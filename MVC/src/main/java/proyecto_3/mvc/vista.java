@@ -221,8 +221,8 @@ public class vista extends javax.swing.JFrame implements Runnable {
         int posY = jugador.getInt(0);
         
         Color cj;
-        if("red".equals(jugador.getString(2))){
-            cj = Color.red;
+        if("yellow".equals(jugador.getString(2))){
+            cj = Color.yellow;
         }
         else{
             cj = Color.green;
