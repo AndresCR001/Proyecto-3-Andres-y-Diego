@@ -1,5 +1,6 @@
 proyecto_3\mvc\modelo.class
 proyecto_3\mvc\controlador$2.class
+<<<<<<< HEAD
 proyecto_3\mvc\Server.class
 proyecto_3\mvc\ClientThread.class
 proyecto_3\mvc\vista.class
@@ -12,3 +13,12 @@ proyecto_3\mvc\Server$StartServerThread.class
 proyecto_3\mvc\controlador$5.class
 proyecto_3\mvc\controlador$1.class
 proyecto_3\mvc\conexionSockets.class
+=======
+proyecto_3\mvc\vista.class
+proyecto_3\mvc\controlador.class
+proyecto_3\mvc\vista$1.class
+proyecto_3\mvc\controlador$3.class
+proyecto_3\mvc\modelo$1.class
+proyecto_3\mvc\controlador$5.class
+proyecto_3\mvc\controlador$1.class
+>>>>>>> 2409d5e752e99642b0f5166d496570ce6c7dcd66
