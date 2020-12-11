@@ -54,8 +54,6 @@ public class controlador extends javax.swing.JFrame implements Runnable {
     
     //{"Lista de activacion de botones":[],"Coordenadas Iniciales":[],"Juego":true,"Coordenadas de Marcador":[],"Pixeles":51,"Coordenadas de SPAWN":[]}
     public void SistemaControlador(){
-        Thread hilo = new Thread(this);
-        hilo.start();
         setJSON(SQ.getJSON());
         System.out.println("Entrando al sistema controlador");
         JSONObject entradaJSON = getJSON();
