@@ -25,6 +25,7 @@ public class vista extends javax.swing.JFrame implements Runnable {
     public JSONObject SpawnsArray = new JSONObject();
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
+    conexionSockets SQ = new conexionSockets();
 
     
     @SuppressWarnings("unchecked")
@@ -77,31 +78,19 @@ public class vista extends javax.swing.JFrame implements Runnable {
             }
         });
     }
+    
     @Override
     public void run() {
        
     System.out.println("Entra al run: Vista");
-
-
-    try{
-        ServerSocket servidor = new ServerSocket(1111); //servidor//indicamos que puerto utilizar (socket para vista-controlador)
-        Socket misocket = servidor.accept();
-        DataInputStream recibirJSON = new DataInputStream(misocket.getInputStream());
-        String entrada = recibirJSON.readUTF(); //guardamos los datos recibidos
-        System.out.println("JSON entrada para VISTA:" +entrada);
-        JSONObject json = new JSONObject(entrada); //definimos la entrada como u
-        setJSON(json);
-
-
-        servidor.close();
+    
+    
+        SQ.recibirJSON(1111);//1111
+        setJSON(SQ.getJSON());
         SistemaVista();
-        
-    }catch(IOException e){
-        System.out.println("error_controlador: " + e);
-    }   catch (ParseException ex) {
-            Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
-        };
+    
     }
+      
     
     public void printCourseDetails(boolean Iniciar, int pixeles, JSONObject updateScreenPixel,JSONObject SpawnsArray,JSONObject updateScreenScore){
           System.out.println("Configuracion del juego: ");
@@ -113,7 +102,7 @@ public class vista extends javax.swing.JFrame implements Runnable {
        }
     
     
-    public void SistemaVista() throws ParseException{//obtenemos los valores del json y los distribuimos por las variables de la vista
+    public void SistemaVista(){//obtenemos los valores del json y los distribuimos por las variables de la vista
         //entramos al sistema vista para hacer set de los valores provenientes del socket PUERTO: 1111
        
         JSONObject JSON = getJSON();
@@ -133,7 +122,7 @@ public class vista extends javax.swing.JFrame implements Runnable {
         setUpdateScreenScore(coordMarcador);
         
         if (isIniciar()){iniciarPantalla(isIniciar(), getUpdateScreenPixel(), getSpawnsArray(), getActiveButtons());}
-   
+       
     }
     
     public void setJSON(JSONObject JSON){
@@ -221,8 +210,8 @@ public class vista extends javax.swing.JFrame implements Runnable {
         int posY = jugador.getInt(0);
         
         Color cj;
-        if("red".equals(jugador.getString(2))){
-            cj = Color.red;
+        if("yellow".equals(jugador.getString(2))){
+            cj = Color.yellow;
         }
         else{
             cj = Color.green;

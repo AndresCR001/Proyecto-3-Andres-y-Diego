@@ -28,6 +28,8 @@ public class controlador extends javax.swing.JFrame implements Runnable {
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
     
+    conexionSockets SQ = new conexionSockets();
+    
     public controlador(){
         initComponents();
         Thread hilo = new Thread(this);
@@ -46,26 +48,15 @@ public class controlador extends javax.swing.JFrame implements Runnable {
     @Override
     public void run() {
         System.out.println("Entra al run: Controlador"); // recibimos los datos del puerto 1011 que proviene de modelo
-       try{
-            ServerSocket servidor = new ServerSocket(212); //servidor//indicamos que puerto utilizar (socket para modelo-controlador)
-            Socket misocket = servidor.accept();
-            
-            DataInputStream recibirJSON = new DataInputStream(misocket.getInputStream());
-            String entrada = recibirJSON.readUTF(); //guardamos los datos recibidos
-            System.out.println("JSON entrada CONTROLADOR:" +entrada);
-            JSONObject json = new JSONObject(entrada); //definimos la entrada como un JSON
-            
-            setJSON(json);
-            
-            servidor.close();
-            
-            
-        }catch(IOException e){
-            System.out.println("error_controlador: " + e);
-        }
+       SQ.recibirJSON(2121);
+        
     }
+    
     //{"Lista de activacion de botones":[],"Coordenadas Iniciales":[],"Juego":true,"Coordenadas de Marcador":[],"Pixeles":51,"Coordenadas de SPAWN":[]}
     public void SistemaControlador(){
+        Thread hilo = new Thread(this);
+        hilo.start();
+        setJSON(SQ.getJSON());
         System.out.println("Entrando al sistema controlador");
         JSONObject entradaJSON = getJSON();
         
@@ -93,27 +84,9 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 
         System.out.println("Enviar: " + json);
         setJSON(json);
-        enviarJSON(getJSON()); //enviamos el JSON al modelo para actualizar los datos
-    }
-    
-    private void enviarJSON(JSONObject json) //--> modelo
-    {
-        System.out.println("Enviando...");
-        try{
-        //enviar constantemente el JSON
-
-        Socket socket = new Socket("localhost",1001);//IP y puerto // puero 1001 para enviar de vuelta informacion
-        DataOutputStream enviarJSON = new DataOutputStream(socket.getOutputStream()); 
-
-
-        enviarJSON.writeUTF(json.toString());
-
-        socket.close();
-                
-        }catch(IOException e){
-            System.out.println(e);
         }
-    }
+    
+    
     
     /*private String BtoS(Boolean iniciar){
         if(iniciar){
@@ -303,6 +276,9 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 
         setActiveButtons(btnLista);
         SistemaControlador();
+        //1001
+        SQ.enviarJSON(getJSON(),1001); //enviamos el JSON al modelo para actualizar los datos
+    
     }//GEN-LAST:event_btnArribaActionPerformed
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
@@ -318,6 +294,9 @@ public class controlador extends javax.swing.JFrame implements Runnable {
 
         SistemaControlador(); // se llama al sistema controlador para actualizar socketDATA
         System.out.println("Se envio el archivo de vuelta");
+        //1001
+        SQ.enviarJSON(getJSON(),1001); //enviamos el JSON al modelo para actualizar los datos
+    
         
        
     }//GEN-LAST:event_btnIniciarActionPerformed
@@ -332,6 +311,9 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 
         setActiveButtons(btnLista);
         SistemaControlador();
+        //1001
+        SQ.enviarJSON(getJSON(),1001); //enviamos el JSON al modelo para actualizar los datos
+    
 
     }//GEN-LAST:event_btnIzqActionPerformed
 
@@ -345,6 +327,9 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 
         setActiveButtons(btnLista);
         SistemaControlador();
+        //1001
+        SQ.enviarJSON(getJSON(),1001); //enviamos el JSON al modelo para actualizar los datos
+    
 
     }//GEN-LAST:event_btnDerechaActionPerformed
 
@@ -358,6 +343,9 @@ public class controlador extends javax.swing.JFrame implements Runnable {
                 
         setActiveButtons(btnLista);
         SistemaControlador();
+        //1001
+        SQ.enviarJSON(getJSON(),1001); //enviamos el JSON al modelo para actualizar los datos
+    
 
     }//GEN-LAST:event_btnAbajoActionPerformed
     

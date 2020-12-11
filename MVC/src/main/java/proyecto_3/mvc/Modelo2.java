@@ -23,8 +23,8 @@ public class Modelo2 extends javax.swing.JFrame implements Runnable {
     public JSONObject SpawnsArray = new JSONObject();
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
-    
     public boolean crear = true;
+    conexionSockets SQ = new conexionSockets();
     
     
     public static void main(String args[]){
@@ -46,21 +46,9 @@ public class Modelo2 extends javax.swing.JFrame implements Runnable {
         
         System.out.println("Entra al run: Modelo2");
         if (crear){crearJSON();crear=false;}// inicializa el primer envio de datos
-        try{
-            
-            ServerSocket servidor = new ServerSocket(1001); //servidor
-            Socket misocket = servidor.accept();
-            DataInputStream recibirJSON = new DataInputStream(misocket.getInputStream());
-            String entrada = recibirJSON.readUTF(); //guardamos los datos recibidos
-            JSONObject json = new JSONObject(entrada);
-            setJSON(json);
-            setActualizar();
-            System.out.println("Cerrando server 1001");
-            servidor.close();
-                
-        }catch(IOException e){
-            System.out.print("error"+e);
-        }
+        
+        //setJSON(SQ.recibirJSON(1001));
+        setActualizar();
     }
     
     public void setActualizar(){
@@ -80,8 +68,8 @@ public class Modelo2 extends javax.swing.JFrame implements Runnable {
         setSpawnsArray(coordSpaws);
         setActiveButtons(ActButtons);
         setUpdateScreenScore(coordMarcador);
-        
-        enviarJSONVista(json);// enviamos el JSON a la vista para que este actualizada
+        //1111
+        SQ.enviarJSON(json,1111);// enviamos el JSON a la vista para que este actualizada
     }
     
     
@@ -109,42 +97,8 @@ public class Modelo2 extends javax.swing.JFrame implements Runnable {
         Sistema.put("Lista de activacion de botones", getActiveButtons());
         Sistema.put("Coordenadas de Marcador",getUpdateScreenScore());
         
-        enviarJSON(Sistema);//se encarga de realizar la conexion y mandar el JSON
+        SQ.enviarJSON(Sistema,2121);//se encarga de realizar la conexion y mandar el JSON
        
-    }
-    private void enviarJSON(JSONObject json) 
-    {
-        //se envia la informacion al controlador PUERTO: xxxx;
-        try{
-            //enviar constantemente el JSON
-            
-            Socket socket = new Socket("localhost",212);//IP y puerto//iniciamos el socket por donde nos comunicaremos con el controlador
-            DataOutputStream enviarJSON = new DataOutputStream(socket.getOutputStream()); 
-            enviarJSON.writeUTF(json.toString());
-
-            socket.close();
-            System.out.println("Se envio el siguiente JSON: "+json.toString());
-
-        }catch(IOException e){
-            System.out.println("Error(MODELO): " + e);
-        }
-    }
-    private void enviarJSONVista(JSONObject json) //--> Vista
-    {
-        try{
-        //enviar constantemente el JSON
-
-        Socket socket = new Socket("localhost",1111);//IP y puerto // puero 1001 para enviar de vuelta informacion
-        DataOutputStream enviarJSON = new DataOutputStream(socket.getOutputStream()); 
-
-
-        enviarJSON.writeUTF(json.toString());
-
-        socket.close();
-                
-        }catch(IOException e){
-            System.out.println(e);
-        }
     }
     
     public JSONObject getJSON() {
