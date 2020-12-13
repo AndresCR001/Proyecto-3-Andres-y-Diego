@@ -26,11 +26,11 @@ public class conexionSockets {
         enviarJSON.writeUTF(json.toString());
         System.out.println("Enviando...");
         socket.close();
-        
-                
         }catch(IOException e){
             System.out.println(e);
         }
+                
+        
     } 
   
   public void recibirJSON(int puerto){
