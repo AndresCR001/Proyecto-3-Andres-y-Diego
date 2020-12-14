@@ -4,7 +4,6 @@ package proyecto_3.mvc;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
@@ -17,6 +16,33 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
     
     JPanel panelPantalla = new JPanel();
     JButton[][] pixs = new JButton [51][51]; 
+    
+    
+    public JSONObject JSON;
+    public boolean iniciar;
+    public int pixeles;
+    public JSONObject updateScreenPixel= new JSONObject();
+    public JSONObject SpawnsArray = new JSONObject();
+    public JSONArray updateScreenScore = new JSONArray();
+    public JSONArray ActiveButtons = new JSONArray(); 
+    public boolean move;
+
+    public boolean isMove() {
+        return move;
+    }
+
+    public void setMove(boolean move) {
+        this.move = move;
+    }
+    public boolean R1;
+
+    public boolean isR1() {
+        return R1;
+    }
+
+    public void setR1(boolean R1) {
+        this.R1 = R1;
+    }
 
     public JButton[][] getPixs() {
         return pixs;
@@ -84,13 +110,11 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         this.ActiveButtons = ActiveButtons;
     }
 
-    public JSONObject JSON;
-    public boolean iniciar;
-    public int pixeles;
-    public JSONObject updateScreenPixel= new JSONObject();
-    public JSONObject SpawnsArray = new JSONObject();
-    public JSONArray updateScreenScore = new JSONArray();
-    public JSONArray ActiveButtons = new JSONArray();
+    
+    
+    
+
+    
    
     
     public Vista_n() {
@@ -110,14 +134,18 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         JSONObject coordIniciales = JSON.getJSONObject("Coordenadas Iniciales");
         JSONObject coordSpaws = JSON.getJSONObject("Coordenadas de SPAWN");
         JSONArray ActButtons = JSON.getJSONArray("Lista de activacion de botones");
+        Boolean move = JSON.getBoolean("Moverse");
         JSONArray coordMarcador = JSON.getJSONArray("Coordenadas de Marcador");
+        Boolean R1 = JSON.getBoolean("R1");
         
         setIniciar(juego);
         setPixeles(pixeles);
         setUpdateScreenPixel(coordIniciales);
         setSpawnsArray(coordSpaws);
         setActiveButtons(ActButtons);
+        setMove(move);
         setUpdateScreenScore(coordMarcador);
+        setR1(R1);
     }
     private void PantallaDesconectada(){
         
@@ -143,10 +171,30 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         setPixs(pixs);
     }
     public void PantallaActiva(){
-        JButton[][] pixeles = new JButton [51][51]; 
+        
+        
         if (isIniciar()){
-        System.out.println("Updateeeee");}
-        //seguir con la progra de I/O pixeles
+            System.out.println("Lanzar Thread de inicio");
+            Inicio inicio = new Inicio(this.panelPantalla);
+            Thread i = new Thread(inicio);
+            i.start();
+        }
+        
+        if (isR1()){
+            System.out.println("Lanzar Thread de disparo");
+            Disparo disparo = new Disparo(true,this.panelPantalla);
+            Thread d = new Thread(disparo);
+            d.start();
+            
+        }
+        
+        if (isMove()){
+            System.out.println("Lanzar Thread de movimiento");
+            Movimiento movimiento = new Movimiento(true, this.panelPantalla);
+            Thread m = new Thread(movimiento);
+            m.start();
+        }
+        
             
         }
     
@@ -179,7 +227,7 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Vista_n().setVisible(true);
+                //new Vista_n().setVisible(true);
             }
         });
     }
@@ -193,12 +241,14 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         //cada vez que se reciba un cambio en el modelo este se actualiza y me envia de vuelta las instrucciones necesarias 
         //llamar una funcion la cual me reciba el JSON (Object arg) y se actualice
         //funcion ejemplo setActualizar();
-        System.out.println(arg.toString());
         
         JSONObject json = new JSONObject((String)arg);
         setJSON(json);
         determinarJSON();
+        System.out.println(isR1());
         PantallaActiva();
+        
+        
         System.out.println("Update "+"\n");
         //this.txtTexto.append((String) );
     }

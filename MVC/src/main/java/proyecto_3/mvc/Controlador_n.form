@@ -31,7 +31,10 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Component id="btnIniciar" min="-2" pref="123" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btnIniciar" pref="123" max="32767" attributes="0"/>
+                  <Component id="btnDisparo" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
@@ -64,6 +67,8 @@
                           <Component id="btnIniciar" alignment="3" min="-2" pref="84" max="-2" attributes="0"/>
                           <Component id="btnDerecha" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      <Component id="btnDisparo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -132,6 +137,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIniciarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnDisparo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="shoot"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDisparoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

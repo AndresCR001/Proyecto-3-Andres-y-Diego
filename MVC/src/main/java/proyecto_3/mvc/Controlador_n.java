@@ -19,6 +19,24 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
     public JSONObject SpawnsArray = new JSONObject();
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
+    public boolean move;
+
+    public boolean isMove() {
+        return move;
+    }
+
+    public void setMove(boolean move) {
+        this.move = move;
+    }
+    public boolean R1;
+
+    public boolean isR1() {
+        return R1;
+    }
+
+    public void setR1(boolean R1) {
+        this.R1 = R1;
+    }
 
     public JSONObject getJSON() {
         return JSON;
@@ -110,7 +128,9 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         Sistema.put("Coordenadas de SPAWN",getSpawnsArray());//agregar lista de SpawnsArray donde spawnean enemigos o consumibles dependiendo de los requerimientos del juego
         Sistema.put("Lista de activacion de botones", getActiveButtons());
+        Sistema.put("Moverse",isMove());
         Sistema.put("Coordenadas de Marcador",getUpdateScreenScore());
+        Sistema.put("R1", isR1());
         
         setJSON(Sistema);
         
@@ -127,6 +147,7 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
         btnDerecha = new javax.swing.JButton();
         btnAbajo = new javax.swing.JButton();
         btnIniciar = new javax.swing.JButton();
+        btnDisparo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Controlador");
@@ -170,6 +191,13 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
             }
         });
 
+        btnDisparo.setText("shoot");
+        btnDisparo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDisparoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -180,7 +208,9 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnIniciar, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                    .addComponent(btnDisparo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -206,6 +236,8 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
                             .addComponent(btnIzq, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDerecha, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addComponent(btnDisparo)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
@@ -227,6 +259,8 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
         btnLista.put(new Integer(0));//derecha
                 
         setActiveButtons(btnLista);
+        setMove(true);
+        setR1(false);
         setActualizar();
         this.txtTexto.append("btnIzq"+"\n");
         
@@ -246,6 +280,8 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
         btnLista.put(new Integer(0));//derecha
                 
         setActiveButtons(btnLista);
+        setMove(true);
+        setR1(false);
         setActualizar();
         this.txtTexto.append("btnArriba"+"\n");
         
@@ -264,6 +300,8 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
         btnLista.put(new Integer(0));//derecha
                 
         setActiveButtons(btnLista);
+        setMove(true);
+        setR1(false);
         setActualizar();
         this.txtTexto.append("btnAbajo"+"\n");
         
@@ -282,6 +320,8 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
         btnLista.put(new Integer(1));//derecha
                 
         setActiveButtons(btnLista);
+        setMove(true);
+        setR1(false);
         setActualizar();
         this.txtTexto.append("btnDerecha"+"\n");
         
@@ -300,6 +340,8 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
         
         setIniciar(true);
         setActiveButtons(botonesIniciales);
+        setMove(false);
+        setR1(false);
         
         setActualizar();
         this.txtTexto.append("btnIniciar"+"\n");
@@ -308,7 +350,22 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
         Cliente c = new Cliente(4000,getJSON().toString());
         Thread t = new Thread(c);
         t.start();
+        
+        setIniciar(false); //le indicamos que es falso para no seguir iniciando la pantalla con algunotra accion 
     }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private void btnDisparoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisparoActionPerformed
+        
+        setR1(true);
+        setMove(false);
+        this.txtTexto.append("btnDisparar"+"\n");
+        
+        setActualizar();
+        //enviamos las acciones al modelo
+        Cliente c = new Cliente(4000,getJSON().toString());
+        Thread t = new Thread(c);
+        t.start();
+    }//GEN-LAST:event_btnDisparoActionPerformed
 
     public static void main(String args[]) {
         
@@ -326,6 +383,7 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
     private javax.swing.JButton btnAbajo;
     private javax.swing.JButton btnArriba;
     private javax.swing.JButton btnDerecha;
+    private javax.swing.JButton btnDisparo;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnIzq;
     private javax.swing.JScrollPane jScrollPane1;
@@ -335,7 +393,7 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         
-        this.txtTexto.append((String) arg);
+        this.txtTexto.append((String) arg + "\n");
         //definimos el JSON y lo actualizamos en el controlador
         JSONObject json = new JSONObject((String)arg);
         setJSON(json);

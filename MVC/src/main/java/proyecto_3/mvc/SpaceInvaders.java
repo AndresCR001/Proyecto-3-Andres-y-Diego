@@ -19,6 +19,24 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
     public JSONObject SpawnsArray = new JSONObject();
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
+    public boolean move;
+
+    public boolean isMove() {
+        return move;
+    }
+
+    public void setMove(boolean move) {
+        this.move = move;
+    }
+    public boolean R1;
+
+    public boolean isR1() {
+        return R1;
+    }
+
+    public void setR1(boolean R1) {
+        this.R1 = R1;
+    }
     public boolean crear = true;
 
     public JSONObject getJSON() {
@@ -182,7 +200,9 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         this.setUpdateScreenPixel(getScreen());
         this.setSpawnsArray(getSpawns());
         this.setActiveButtons(getButtons());
+        this.setMove(false);
         this.setUpdateScreenScore(getScoreScreen());
+        this.setR1(false);
         //-----------------------------------------------------------
         
        
@@ -193,7 +213,9 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         Sistema.put("Coordenadas de SPAWN",getSpawnsArray());//agregar lista de SpawnsArray donde spawnean enemigos o consumibles dependiendo de los requerimientos del juego
         Sistema.put("Lista de activacion de botones", getActiveButtons());
+        Sistema.put("Moverse",isMove());
         Sistema.put("Coordenadas de Marcador",getUpdateScreenScore());
+        Sistema.put("R1", isR1());
         
         setJSON(Sistema);
         
@@ -215,14 +237,18 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         JSONObject coordIniciales = JSON.getJSONObject("Coordenadas Iniciales");
         JSONObject coordSpaws = JSON.getJSONObject("Coordenadas de SPAWN");
         JSONArray ActButtons = JSON.getJSONArray("Lista de activacion de botones");
+        Boolean move = JSON.getBoolean("Moverse");
         JSONArray coordMarcador = JSON.getJSONArray("Coordenadas de Marcador");
+        Boolean R1 = JSON.getBoolean("R1");
         
         setIniciar(juego);
         setPixeles(pixeles);
         setUpdateScreenPixel(coordIniciales);
         setSpawnsArray(coordSpaws);
         setActiveButtons(ActButtons);
+        setMove(move);
         setUpdateScreenScore(coordMarcador);
+        setR1(R1);//asegurarse de no ocupar ser false
         
         
         JSONObject Sistema = new JSONObject();//contiene todos los datos, tanto del Jugador 1 como el de los enemigos/consumibles
@@ -232,7 +258,9 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         Sistema.put("Coordenadas de SPAWN",getSpawnsArray());//agregar lista de SpawnsArray donde spawnean enemigos o consumibles dependiendo de los requerimientos del juego
         Sistema.put("Lista de activacion de botones", getActiveButtons());
+        Sistema.put("Moverse", isMove());
         Sistema.put("Coordenadas de Marcador",getUpdateScreenScore());
+        Sistema.put("R1", isR1());
         
         setJSON(Sistema);
     }
@@ -327,7 +355,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         
         /*cuando se hace un cambio desde el controlador, se acciona este Update
         se notificará a la vista por medio del puerto 4700*/
-        this.txtTexto.append((String) arg);
+        this.txtTexto.append((String) arg + "\n");
         
         JSONObject json = new JSONObject((String)arg);
         setJSON(json);
@@ -335,7 +363,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         //llamar a una funcion que me cambie los pixeles segun instrucciones
         //funcion ejemplo setActualizar();
         setActualizar();
-        this.txtTexto.append("Se actualizo la vista");
+        this.txtTexto.append("Se actualizo la vista" + "\n");
         //notificacion(envio del string=
         Cliente c = new Cliente(4700,arg.toString());
         Thread t = new Thread(c);
