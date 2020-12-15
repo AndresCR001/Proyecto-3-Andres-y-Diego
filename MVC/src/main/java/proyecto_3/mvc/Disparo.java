@@ -19,8 +19,6 @@ public class Disparo implements Runnable{
         public boolean disparar;
         public JPanel screen;
 
-
-
     
     public Disparo(boolean disparar, JPanel screen){
         

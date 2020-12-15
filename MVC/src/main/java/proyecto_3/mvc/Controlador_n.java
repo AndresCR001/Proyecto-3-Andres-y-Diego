@@ -100,7 +100,7 @@ public class Controlador_n extends javax.swing.JFrame implements Observer {
 
     public Controlador_n() {
         initComponents();
-        this.getRootPane().setDefaultButton(this.btnIzq);
+        this.getRootPane().setDefaultButton(this.btnIniciar);
         Servidor s = new Servidor(4500);
         s.addObserver(this);//indicamos que el frame va a ser un observador (al cual se le notifican cambios)
         Thread t = new Thread(s);

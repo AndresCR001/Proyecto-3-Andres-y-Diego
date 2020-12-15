@@ -20,6 +20,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
     public JSONArray updateScreenScore = new JSONArray();
     public JSONArray ActiveButtons = new JSONArray();
     public boolean move;
+    private int posX, posY;
 
     public boolean isMove() {
         return move;
@@ -122,7 +123,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         XY.put(25); //x
         XY.put("green"); //color
         
-        XY_.put("jugador", XY);
+        XY_.put("Jugador", XY);
         
         
         return XY_;
@@ -250,12 +251,23 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         setUpdateScreenScore(coordMarcador);
         setR1(R1);//asegurarse de no ocupar ser false
         
+        if (isMove()){
+            posX = getUpdateScreenPixel().getJSONArray("Jugador").getInt(0);
+            posY = getUpdateScreenPixel().getJSONArray("Jugador").getInt(1);
+            System.out.println("Lanzar Thread de movimiento");
+            System.out.println(getActiveButtons() + "\n" + getUpdateScreenPixel());
+            direccion(getActiveButtons());
+            //Movimiento movimiento = new Movimiento(true, this.getActiveButtons(),this.getUpdateScreenPixel());
+            //Thread m = new Thread(movimiento);
+            //m.start();
+        }
         
         JSONObject Sistema = new JSONObject();//contiene todos los datos, tanto del Jugador 1 como el de los enemigos/consumibles
         
         Sistema.put("Juego",isIniciar());//valor true o false que proviene del btn iniciar juego
         Sistema.put("Pixeles",getPixeles());
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
+        System.out.println("Actualizado: " + getUpdateScreenPixel());
         Sistema.put("Coordenadas de SPAWN",getSpawnsArray());//agregar lista de SpawnsArray donde spawnean enemigos o consumibles dependiendo de los requerimientos del juego
         Sistema.put("Lista de activacion de botones", getActiveButtons());
         Sistema.put("Moverse", isMove());
@@ -264,6 +276,35 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         
         setJSON(Sistema);
     }
+    
+    private void direccion(JSONArray ActiveBtns){
+        
+        int up = ActiveBtns.getInt(0);//ARRIBA
+        int down = ActiveBtns.getInt(1);//ABAJO
+        int left = ActiveBtns.getInt(2);//L
+        int right = ActiveBtns.getInt(3);//R
+        
+        if (up == 1){posY+=1;}
+        if (down == 1){posY-=1;}
+        if (left == 1){posX-=1;}
+        if (right == 1){posX+=1;}
+        
+        
+        // establece las nuevas coordenadas  del jugador para enviarlas a la vista
+        JSONArray coords = new JSONArray();
+        coords.put(posX);
+        coords.put(posY);
+        coords.put(getUpdateScreenPixel().getJSONArray("Jugador").getString(2));
+        
+        JSONObject newPos = new JSONObject();
+        newPos.put("Jugador", coords);
+        
+        //se establece el nuevo JSONObject
+        setUpdateScreenPixel(newPos);
+        
+        System.out.println("Direccion: " + getUpdateScreenPixel());
+    }
+    
     
 
     @SuppressWarnings("unchecked")
@@ -365,9 +406,13 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         setActualizar();
         this.txtTexto.append("Se actualizo la vista" + "\n");
         //notificacion(envio del string=
-        Cliente c = new Cliente(4700,arg.toString());
+        Cliente c = new Cliente(4700,getJSON().toString());
         Thread t = new Thread(c);
         t.start();
+        
+        Cliente c2 = new Cliente(4500,getJSON().toString());
+        Thread t2 = new Thread(c2);
+        t2.start();
         
     }
 }

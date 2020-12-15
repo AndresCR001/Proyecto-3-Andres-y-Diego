@@ -141,6 +141,7 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         setIniciar(juego);
         setPixeles(pixeles);
         setUpdateScreenPixel(coordIniciales);
+        System.out.println(coordIniciales); // --------------------
         setSpawnsArray(coordSpaws);
         setActiveButtons(ActButtons);
         setMove(move);
@@ -188,12 +189,13 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
             
         }
         
-        if (isMove()){
+        /*if (isMove()){
             System.out.println("Lanzar Thread de movimiento");
-            Movimiento movimiento = new Movimiento(true, this.panelPantalla);
+            System.out.println(getActiveButtons() + "\n" + getUpdateScreenPixel());
+            Movimiento movimiento = new Movimiento(true, this.getActiveButtons(),this.getUpdateScreenPixel());
             Thread m = new Thread(movimiento);
             m.start();
-        }
+        }*/
         
             
         }
