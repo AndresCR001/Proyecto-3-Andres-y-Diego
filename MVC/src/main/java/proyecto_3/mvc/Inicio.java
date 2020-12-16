@@ -13,10 +13,12 @@ import javax.swing.JPanel;
 public class Inicio implements Runnable {
     
     private JPanel screen;
+    private Color color;
     
-    public Inicio(JPanel screen){
+    public Inicio(JPanel screen, Color color){
         
         this.screen = screen;
+        this.color = color;
         
     }
 
@@ -29,7 +31,7 @@ public class Inicio implements Runnable {
             if(component instanceof JButton){ //definir los colores según JSON
 
                 JButton button = (JButton) component;
-                button.setBackground(Color.yellow);
+                button.setBackground(color);
         //si la bala le atina a algun enemigo o se sale del grid se elinimina 
         //setR1(false);
             }

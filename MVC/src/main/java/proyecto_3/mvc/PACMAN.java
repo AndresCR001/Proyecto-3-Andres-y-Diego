@@ -10,7 +10,7 @@ import org.json.JSONObject;
  *
  * @author Xandr
  */
-public class SpaceInvaders extends javax.swing.JFrame implements Observer{
+public class PACMAN extends javax.swing.JFrame implements Observer{
     
     public JSONObject JSON;
     public boolean iniciar;
@@ -180,7 +180,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
     
     
 
-    public SpaceInvaders() {
+    public PACMAN() {
         initComponents();
         this.getRootPane().setDefaultButton(this.btnEnviar);
         if (crear){crearJSON();crear=false;}
@@ -210,14 +210,14 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         JSONObject Sistema = new JSONObject();//contiene todos los datos, tanto del Jugador 1 como el de los enemigos/consumibles
         
         Sistema.put("Juego",isIniciar());//valor true o false que proviene del btn iniciar juego
-        Sistema.put("Color Inicio", "gris");
+        Sistema.put("Color Inicio", "azul");
         Sistema.put("Pixeles",getPixeles());
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         Sistema.put("Coordenadas de SPAWN",getSpawnsArray());//agregar lista de SpawnsArray donde spawnean enemigos o consumibles dependiendo de los requerimientos del juego
         Sistema.put("Lista de activacion de botones", getActiveButtons());
         Sistema.put("Moverse",isMove());
         Sistema.put("Coordenadas de Marcador",getUpdateScreenScore());
-        Sistema.put("R1", isR1());
+        Sistema.put("R1", false);
         
         setJSON(Sistema);
         
@@ -241,7 +241,6 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         JSONArray ActButtons = JSON.getJSONArray("Lista de activacion de botones");
         Boolean move = JSON.getBoolean("Moverse");
         JSONArray coordMarcador = JSON.getJSONArray("Coordenadas de Marcador");
-        Boolean R1 = JSON.getBoolean("R1");
         
         setIniciar(juego);
         setPixeles(pixeles);
@@ -266,7 +265,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         JSONObject Sistema = new JSONObject();//contiene todos los datos, tanto del Jugador 1 como el de los enemigos/consumibles
         
         Sistema.put("Juego",isIniciar());//valor true o false que proviene del btn iniciar juego
-        Sistema.put("Color Inicio", "gris");
+        Sistema.put("Color Inicio", "azul");
         Sistema.put("Pixeles",getPixeles());
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         System.out.println("Actualizado: " + getUpdateScreenPixel());
@@ -274,7 +273,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         Sistema.put("Lista de activacion de botones", getActiveButtons());
         Sistema.put("Moverse", isMove());
         Sistema.put("Coordenadas de Marcador",getUpdateScreenScore());
-        Sistema.put("R1", isR1());
+        Sistema.put("R1", false);
         
         setJSON(Sistema);
     }
@@ -380,7 +379,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SpaceInvaders().setVisible(true);
+                new PACMAN().setVisible(true);
             }
         });
     }

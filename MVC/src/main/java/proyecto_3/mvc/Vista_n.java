@@ -175,8 +175,14 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         
         
         if (isIniciar()){
+            JSONObject JSON = getJSON();
+            
             System.out.println("Lanzar Thread de inicio");
-            Inicio inicio = new Inicio(this.panelPantalla);
+            String color = JSON.getString("Color Inicio");
+            Color clrJuego;
+            if("gris".equals(color)){clrJuego = Color.lightGray;}
+            else{clrJuego = Color.blue;}
+            Inicio inicio = new Inicio(this.panelPantalla, clrJuego);
             Thread i = new Thread(inicio);
             i.start();
         }
