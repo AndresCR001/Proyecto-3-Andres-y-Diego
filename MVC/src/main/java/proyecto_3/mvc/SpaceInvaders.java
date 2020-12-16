@@ -134,26 +134,22 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         
         JSONObject XY_ = new JSONObject();
         
-        JSONArray enemigo1 = new JSONArray(); 
-        enemigo1.put(5);//y
-        enemigo1.put(10);//x
-        enemigo1.put("gray");//color
+        JSONArray coordX = new JSONArray(); //Coordenadas en X de los pixeles
+        coordX.put(5);
+        coordX.put(10);
         
-        JSONArray enemigo2 = new JSONArray();
-        enemigo2.put(5);
-        enemigo2.put(25);
-        enemigo2.put("gray");//color
+        JSONArray coordY = new JSONArray(); //Coordenadas en Y
+        coordY.put(5);
+        coordY.put(25);
         
-        JSONArray enemigo3 = new JSONArray();
-        enemigo3.put(5);
-        enemigo3.put(40);
-        enemigo3.put("gray");//color
+        JSONArray colores = new JSONArray();  //Colores de los pixeles
+        colores.put("white");
         
         
         //color - enemigo 
-        XY_.put("enemigo1", enemigo1);
-        XY_.put("enemigo2", enemigo2);
-        XY_.put("enemigo3", enemigo3);
+        XY_.put("Coordenadas X", coordX);
+        XY_.put("Coordenadas Y", coordY);
+        XY_.put("Colores", colores);
         
         return XY_;
     }

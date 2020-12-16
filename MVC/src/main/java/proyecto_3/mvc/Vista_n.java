@@ -172,10 +172,9 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         setPixs(pixs);
     }
     public void PantallaActiva(){
-        
+        JSONObject JSON = getJSON();
         
         if (isIniciar()){
-            JSONObject JSON = getJSON();
             
             System.out.println("Lanzar Thread de inicio");
             String color = JSON.getString("Color Inicio");
@@ -206,7 +205,54 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
             
         }
     
-    
+    public void Coordenadas(){
+        JSONObject JSON = getJSON();
+        JSONObject iniciales = JSON.getJSONObject("Coordenadas Iniciales");
+        JSONObject spawns = JSON.getJSONObject("Coordenadas de SPAWN");
+        JSONArray jugador = iniciales.getJSONArray("Jugador");
+        int posX = jugador.getInt(1);
+        int posY = jugador.getInt(0);
+
+        Color cj;
+        if("amarillo".equals(jugador.getString(2))){
+            cj = Color.yellow;
+        }
+        else{
+            cj = Color.green;
+        }
+        pixs[posY][posX].setBackground(cj);
+
+        JSONArray coordX = spawns.getJSONArray("Coordenadas X");
+        JSONArray coordY = spawns.getJSONArray("Coordenadas Y");
+        JSONArray colores = spawns.getJSONArray("Colores");
+
+        int cont = coordX.length() - 1;
+
+        while(cont >= 0){
+            int x = coordX.getInt(cont);
+            int y = coordY.getInt(cont);
+            String color2 = colores.getString(cont);
+            Color clr;
+
+            switch (color2) {
+                case "cyan":
+                    clr = Color.cyan;
+                    break;
+                case "red":
+                    clr = Color.red;
+                    break;
+                case "pink":
+                    clr = Color.pink;
+                    break;
+                default:
+                    clr = Color.white;
+                    break;
+            }
+
+            pixs[y][x].setBackground(clr);
+            cont -= 1;
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -255,6 +301,7 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         determinarJSON();
         System.out.println(isR1());
         PantallaActiva();
+        Coordenadas();
         
         
         System.out.println("Update "+"\n");

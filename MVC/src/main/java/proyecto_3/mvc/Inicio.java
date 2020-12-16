@@ -24,7 +24,7 @@ public class Inicio implements Runnable {
 
     @Override
     public void run() {
-        
+
         Component[] components =screen.getComponents(); //cualquier emergencia pasar esto a un ciclo y crear la lista manual (de no poder er específico el boton) 
         for(Component component : components)
         {

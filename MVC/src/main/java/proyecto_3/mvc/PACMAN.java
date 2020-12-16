@@ -119,12 +119,11 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         JSONObject XY_ = new JSONObject();
         
         JSONArray XY = new JSONArray();
-        XY.put(45); //y
         XY.put(25); //x
-        XY.put("green"); //color
+        XY.put(45); //y
+        XY.put("amarillo"); //color
         
         XY_.put("Jugador", XY);
-        
         
         return XY_;
     }
@@ -134,26 +133,26 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         
         JSONObject XY_ = new JSONObject();
         
-        JSONArray enemigo1 = new JSONArray(); 
-        enemigo1.put(5);//y
-        enemigo1.put(10);//x
-        enemigo1.put("gray");//color
+        JSONArray coordX = new JSONArray(); //Coordenadas en X de los pixeles
+        coordX.put(24);
+        coordX.put(24);
+        coordX.put(24);
         
-        JSONArray enemigo2 = new JSONArray();
-        enemigo2.put(5);
-        enemigo2.put(25);
-        enemigo2.put("gray");//color
+        JSONArray coordY = new JSONArray(); //Coordenadas en Y
+        coordY.put(23);
+        coordY.put(25);
+        coordY.put(27);
         
-        JSONArray enemigo3 = new JSONArray();
-        enemigo3.put(5);
-        enemigo3.put(40);
-        enemigo3.put("gray");//color
+        JSONArray colores = new JSONArray();  //Colores de los pixeles
+        colores.put("cyan");
+        colores.put("red");
+        colores.put("pink");
         
         
         //color - enemigo 
-        XY_.put("enemigo1", enemigo1);
-        XY_.put("enemigo2", enemigo2);
-        XY_.put("enemigo3", enemigo3);
+        XY_.put("Coordenadas X", coordX);
+        XY_.put("Coordenadas Y", coordY);
+        XY_.put("Colores", colores);
         
         return XY_;
     }
@@ -285,8 +284,8 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         int left = ActiveBtns.getInt(2);//L
         int right = ActiveBtns.getInt(3);//R
         
-        if (up == 1){posY+=1;}
-        if (down == 1){posY-=1;}
+        if (up == 1){posY-=1;}
+        if (down == 1){posY+=1;}
         if (left == 1){posX-=1;}
         if (right == 1){posX+=1;}
         
