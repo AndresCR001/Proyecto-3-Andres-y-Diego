@@ -211,27 +211,11 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
     public void Coordenadas(){
         JSONObject JSON = getJSON();
         JSONObject iniciales = JSON.getJSONObject("Coordenadas Iniciales");
+        String colorIni = JSON.getString("Color Inicio");
         JSONObject spawns = JSON.getJSONObject("Coordenadas de SPAWN");
         JSONArray jugador = iniciales.getJSONArray("Jugador");
         int posX = jugador.getInt(1);
         int posY = jugador.getInt(0);
-
-        Color cj;
-        if("amarillo".equals(jugador.getString(2))){
-            cj = Color.yellow;
-        }
-        else{
-            cj = Color.green;
-        }
-        pixs[posY][posX].setBackground(cj);
-        pixs[posY+1][posX+1].setBackground(cj);
-        pixs[posY-1][posX-1].setBackground(cj);
-        pixs[posY-1][posX+1].setBackground(cj);
-        pixs[posY+1][posX-1].setBackground(cj);
-        pixs[posY+1][posX].setBackground(cj);
-        pixs[posY-1][posX].setBackground(cj);
-        pixs[posY][posX+1].setBackground(cj);
-        pixs[posY][posX-1].setBackground(cj);
 
         JSONArray coordX = spawns.getJSONArray("Coordenadas X");
         JSONArray coordY = spawns.getJSONArray("Coordenadas Y");
@@ -258,6 +242,9 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
                 case "pink":
                     clr = Color.pink;
                     break;
+                case "black":
+                    clr = Color.black;
+                    break;
                 default:
                     clr = Color.blue;
                     break;
@@ -266,6 +253,20 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
             pixs[y][x].setBackground(clr);
             cont -= 1;
         }
+        
+        Color cj;
+        if("amarillo".equals(jugador.getString(2))){cj = Color.yellow;}
+        else{cj = Color.green;}
+        
+        pixs[posY][posX].setBackground(cj);
+        pixs[posY+1][posX+1].setBackground(cj);
+        pixs[posY-1][posX-1].setBackground(cj);
+        pixs[posY-1][posX+1].setBackground(cj);
+        pixs[posY+1][posX-1].setBackground(cj);
+        pixs[posY+1][posX].setBackground(cj);
+        pixs[posY-1][posX].setBackground(cj);
+        pixs[posY][posX+1].setBackground(cj);
+        pixs[posY][posX-1].setBackground(cj);
     }
 
     @SuppressWarnings("unchecked")

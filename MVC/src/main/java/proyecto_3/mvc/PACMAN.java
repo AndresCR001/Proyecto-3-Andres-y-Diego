@@ -447,10 +447,6 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         return lista;
     }
     
-    
-    
-    
-
     public PACMAN() {
         initComponents();
         this.getRootPane().setDefaultButton(this.btnEnviar);
@@ -501,6 +497,49 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         t2.start();
        
     }
+    
+    public void BorrarCamino(){ //esta funcion borra los pixeles en los que estuvo el jugador 
+        JSONObject JSON = getJSON();
+        JSONObject spawns = JSON.getJSONObject("Coordenadas de SPAWN");
+        JSONArray coordX = spawns.getJSONArray("Coordenadas X");
+        JSONArray coordY = spawns.getJSONArray("Coordenadas Y");
+        JSONArray colores = spawns.getJSONArray("Colores");
+             
+        coordX.put(posY);
+        coordY.put(posX);
+        colores.put("black");
+        coordX.put(posY+1);
+        coordY.put(posX+1);
+        colores.put("black");
+        coordX.put(posY-1);
+        coordY.put(posX-1);
+        colores.put("black");
+        coordX.put(posY+1);
+        coordY.put(posX-1);
+        colores.put("black");
+        coordX.put(posY-1);
+        coordY.put(posX+1);
+        colores.put("black");
+        coordX.put(posY+1);
+        coordY.put(posX);
+        colores.put("black");
+        coordX.put(posY-1);
+        coordY.put(posX);
+        colores.put("black");
+        coordX.put(posY);
+        coordY.put(posX+1);
+        colores.put("black");
+        coordX.put(posY);
+        coordY.put(posX-1);
+        colores.put("black");
+        
+        spawns.put("Coordenadas X", coordX);
+        spawns.put("Coordenadas Y", coordY);
+        spawns.put("Colores", colores);
+        
+        setSpawnsArray(spawns);
+    }
+    
     private void setActualizar(){
         JSONObject JSON = getJSON();
         
@@ -556,19 +595,13 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         int left = ActiveBtns.getInt(2);//L
         int right = ActiveBtns.getInt(3);//R
         
-        JSONObject JSON = getJSON();
-        JSONObject spawns = JSON.getJSONObject("Coordenadas de SPAWN");
-        JSONArray coordX = spawns.getJSONArray("Coordenadas X");
-        JSONArray coordY = spawns.getJSONArray("Coordenadas Y");
-          
-        if (posX-2 > 0 && posX+2 < 50 && posY-2 > 0 && posY+2 < 50){
-            if (up == 1){posY-=3;}
-            if (down == 1){posY+=3;}
-            if (left == 1){posX-=3;}
-            if (right == 1){posX+=3;}
-        }
-        
-        
+        BorrarCamino(); //Se borran los pixeles donde anteriormente estuvo el jugador
+                  
+        if (up == 1){posY-=3;}
+        if (down == 1){posY+=3;}
+        if (left == 1){posX-=3;}
+        if (right == 1){posX+=3;}
+                
         // establece las nuevas coordenadas  del jugador para enviarlas a la vista
         JSONArray coords = new JSONArray();
         coords.put(posX);
