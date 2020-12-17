@@ -119,7 +119,7 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         JSONObject XY_ = new JSONObject();
         
         JSONArray XY = new JSONArray();
-        XY.put(25); //x
+        XY.put(26); //x
         XY.put(45); //y
         XY.put("amarillo"); //color
         
@@ -133,21 +133,293 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         
         JSONObject XY_ = new JSONObject();
         
-        JSONArray coordX = new JSONArray(); //Coordenadas en X de los pixeles
+        JSONArray coordX = new JSONArray(); //Coordenadas en X de los pixeles----------------------------------------------------------------------
+        coordX.put(24);
         coordX.put(24);
         coordX.put(24);
         coordX.put(24);
         
-        JSONArray coordY = new JSONArray(); //Coordenadas en Y
-        coordY.put(23);
-        coordY.put(25);
-        coordY.put(27);
+        int cont = 5;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 22){
+            coordX.put(cont);
+            cont += 1;
+        }
         
-        JSONArray colores = new JSONArray();  //Colores de los pixeles
+        cont = 5;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 22){
+            coordX.put(cont);
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 9){
+            coordX.put(22);
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 9){
+            coordX.put(22);
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            coordX.put(5);
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            coordX.put(cont);
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            coordX.put(cont);
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            coordX.put(cont);
+            cont += 1;
+        }
+        
+        cont = 23;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 31){
+            coordX.put(cont);
+            cont += 1;
+        }
+        
+        cont = 23;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 31){
+            coordX.put(cont);
+            cont += 1;
+        }
+        
+        cont = 0;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 8){
+            coordX.put(31);
+            cont += 1;
+        }
+        
+        cont = 42;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            coordX.put(31);
+            cont += 1;
+        }
+        
+        cont = 32;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            coordX.put(cont);
+            cont += 1;
+        }
+        
+        cont = 32;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            coordX.put(cont);
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 49){
+            coordX.put(50);
+            cont += 1;
+        }
+        
+        JSONArray coordY = new JSONArray(); //Coordenadas en Y-------------------------------------------------------------------------------------
+        coordY.put(22);
+        coordY.put(24);
+        coordY.put(26);
+        coordY.put(28);
+        
+        cont = 5;   // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 22){
+            coordY.put(0);
+            cont += 1;
+        }
+        
+        cont = 5;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 22){
+            coordY.put(50);
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 9){
+            coordY.put(cont);
+            cont += 1;
+        }
+        
+        cont = 41;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 49){
+            coordY.put(cont);
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            coordY.put(cont);
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            coordY.put(26);
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            coordY.put(25);
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            coordY.put(24);
+            cont += 1;
+        }
+        
+        cont = 23;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 31){
+            coordY.put(9);
+            cont += 1;
+        }
+        
+        cont = 23;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 31){
+            coordY.put(41);
+            cont += 1;
+        }
+        
+        cont = 0;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 8){
+            coordY.put(cont);
+            cont += 1;
+        }
+        
+        cont = 42;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            coordY.put(cont);
+            cont += 1;
+        }
+        
+        cont = 32;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            coordY.put(0);
+            cont += 1;
+        }
+        
+        cont = 32;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            coordY.put(50);
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 49){
+            coordY.put(cont);
+            cont += 1;
+        }
+        
+        JSONArray colores = new JSONArray();  //Colores de los pixeles ----------------------------------------------------------------------------
         colores.put("cyan");
+        colores.put("orange");
         colores.put("red");
         colores.put("pink");
         
+        cont = 5;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 22){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 5;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 22){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 9){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 9){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 6;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 13){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 23;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 31){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 23;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 31){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 0;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 8){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 42;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 32;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 32;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 50){
+            colores.put("blue");
+            cont += 1;
+        }
+        
+        cont = 1;  // Este ciclo es para agregar los muros del laberinto
+        while(cont <= 49){
+            colores.put("blue");
+            cont += 1;
+        }
         
         //color - enemigo 
         XY_.put("Coordenadas X", coordX);
@@ -284,10 +556,17 @@ public class PACMAN extends javax.swing.JFrame implements Observer{
         int left = ActiveBtns.getInt(2);//L
         int right = ActiveBtns.getInt(3);//R
         
-        if (up == 1){posY-=1;}
-        if (down == 1){posY+=1;}
-        if (left == 1){posX-=1;}
-        if (right == 1){posX+=1;}
+        JSONObject JSON = getJSON();
+        JSONObject spawns = JSON.getJSONObject("Coordenadas de SPAWN");
+        JSONArray coordX = spawns.getJSONArray("Coordenadas X");
+        JSONArray coordY = spawns.getJSONArray("Coordenadas Y");
+          
+        if (posX-2 > 0 && posX+2 < 50 && posY-2 > 0 && posY+2 < 50){
+            if (up == 1){posY-=3;}
+            if (down == 1){posY+=3;}
+            if (left == 1){posX-=3;}
+            if (right == 1){posX+=3;}
+        }
         
         
         // establece las nuevas coordenadas  del jugador para enviarlas a la vista

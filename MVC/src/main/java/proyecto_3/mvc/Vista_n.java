@@ -16,6 +16,7 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
     
     JPanel panelPantalla = new JPanel();
     JButton[][] pixs = new JButton [51][51]; 
+    boolean coord = false;
     
     
     public JSONObject JSON;
@@ -180,10 +181,12 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
             String color = JSON.getString("Color Inicio");
             Color clrJuego;
             if("gris".equals(color)){clrJuego = Color.lightGray;}
-            else{clrJuego = Color.blue;}
+            else{clrJuego = Color.black;}
             Inicio inicio = new Inicio(this.panelPantalla, clrJuego);
             Thread i = new Thread(inicio);
             i.start();
+            coord = true;
+            
         }
         
         if (isR1()){
@@ -221,6 +224,14 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
             cj = Color.green;
         }
         pixs[posY][posX].setBackground(cj);
+        pixs[posY+1][posX+1].setBackground(cj);
+        pixs[posY-1][posX-1].setBackground(cj);
+        pixs[posY-1][posX+1].setBackground(cj);
+        pixs[posY+1][posX-1].setBackground(cj);
+        pixs[posY+1][posX].setBackground(cj);
+        pixs[posY-1][posX].setBackground(cj);
+        pixs[posY][posX+1].setBackground(cj);
+        pixs[posY][posX-1].setBackground(cj);
 
         JSONArray coordX = spawns.getJSONArray("Coordenadas X");
         JSONArray coordY = spawns.getJSONArray("Coordenadas Y");
@@ -238,6 +249,9 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
                 case "cyan":
                     clr = Color.cyan;
                     break;
+                case "orange":
+                    clr = Color.orange;
+                    break;
                 case "red":
                     clr = Color.red;
                     break;
@@ -245,7 +259,7 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
                     clr = Color.pink;
                     break;
                 default:
-                    clr = Color.white;
+                    clr = Color.blue;
                     break;
             }
 
@@ -301,7 +315,9 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         determinarJSON();
         System.out.println(isR1());
         PantallaActiva();
-        Coordenadas();
+        if (coord){
+            Coordenadas();
+        }
         
         
         System.out.println("Update "+"\n");
