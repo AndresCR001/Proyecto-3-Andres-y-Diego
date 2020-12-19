@@ -32,17 +32,17 @@ public class Disparo implements Runnable{
     public void run() {
         
         if(disparar){
-            Component[] components =screen.getComponents(); //cualquier emergencia pasar esto a un ciclo y crear la lista manual (de no poder er específico el boton) 
-            for(Component component : components)
-            {
-                if(component instanceof JButton){
-
-                    JButton button = (JButton) component;
-                    button.setBackground(Color.red);
-            //si la bala le atina a algun enemigo o se sale del grid se elinimina 
-            //setR1(false);
-                }
-            }
+//            Component[] components =screen.getComponents(); //cualquier emergencia pasar esto a un ciclo y crear la lista manual (de no poder er específico el boton) 
+//            for(Component component : components)
+//            {
+//                if(component instanceof JButton){
+//
+//                    JButton button = (JButton) component;
+//                    button.setBackground(Color.red);
+//            //si la bala le atina a algun enemigo o se sale del grid se elinimina 
+//            //setR1(false);
+//                }
+//            }
             
         }
     }

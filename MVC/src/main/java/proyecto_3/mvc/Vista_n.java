@@ -174,6 +174,10 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
     }
     public void PantallaActiva(){
         JSONObject JSON = getJSON();
+        JSONObject coordenadasInicio = JSON.getJSONObject("Coordenadas Iniciales");
+        JSONArray jugador = coordenadasInicio.getJSONArray("Jugador");
+        int posX = jugador.getInt(1);
+        int posY = jugador.getInt(0);
         
         if (isIniciar()){
             
@@ -194,6 +198,7 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
             Disparo disparo = new Disparo(true,this.panelPantalla);
             Thread d = new Thread(disparo);
             d.start();
+            pixs[posY][posX-20].setBackground(Color.red);
             
         }
         
@@ -245,6 +250,15 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
                 case "black":
                     clr = Color.black;
                     break;
+                case "white":
+                    clr = Color.white;
+                    break;
+                case "green":
+                    clr = Color.green;
+                    break;
+                case "magenta":
+                    clr = Color.magenta;
+                    break;
                 default:
                     clr = Color.blue;
                     break;
@@ -256,7 +270,7 @@ public class Vista_n extends javax.swing.JFrame implements Observer {
         
         Color cj;
         if("amarillo".equals(jugador.getString(2))){cj = Color.yellow;}
-        else{cj = Color.green;}
+        else{cj = Color.lightGray;}
         
         pixs[posY][posX].setBackground(cj);
         pixs[posY+1][posX+1].setBackground(cj);

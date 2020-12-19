@@ -119,9 +119,9 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         JSONObject XY_ = new JSONObject();
         
         JSONArray XY = new JSONArray();
-        XY.put(45); //y
         XY.put(25); //x
-        XY.put("green"); //color
+        XY.put(45); //y
+        XY.put("lightgray"); //color
         
         XY_.put("Jugador", XY);
         
@@ -134,18 +134,252 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         
         JSONObject XY_ = new JSONObject();
         
-        JSONArray coordX = new JSONArray(); //Coordenadas en X de los pixeles
-        coordX.put(5);
-        coordX.put(10);
+        JSONArray coordX = new JSONArray(); //Coordenadas en X de los pixeles----------------------------------------------------------------------
         
-        JSONArray coordY = new JSONArray(); //Coordenadas en Y
-        coordY.put(5);
-        coordY.put(25);
+        int cont = 4;
+        int cont2 = 0;
+        int cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                coordX.put(8);
+                coordX.put(9);
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
         
-        JSONArray colores = new JSONArray();  //Colores de los pixeles
-        colores.put("white");
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                coordX.put(12);
+                coordX.put(13);
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
         
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                coordX.put(16);
+                coordX.put(17);
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
         
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                coordX.put(20);
+                coordX.put(21);
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+                     
+        JSONArray coordY = new JSONArray(); //Coordenadas en Y-------------------------------------------------------------------------------------
+        
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                coordY.put(cont);
+                coordY.put(cont);
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+        
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                coordY.put(cont);
+                coordY.put(cont);
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+        
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                coordY.put(cont);
+                coordY.put(cont);
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+        
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                coordY.put(cont);
+                coordY.put(cont);
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+                
+        JSONArray colores = new JSONArray();  //Colores de los pixeles ----------------------------------------------------------------------------
+        
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                colores.put("white");
+                colores.put("white");
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+        
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                colores.put("red");
+                colores.put("red");
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+        
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                colores.put("green");
+                colores.put("green");
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+        
+        cont = 4;
+        cont2 = 0;
+        cont3 = 0;
+        while(cont <= 46){
+            if(cont2 < 3){
+                colores.put("magenta");
+                colores.put("magenta");
+                cont += 1;
+            }
+            else{
+                while(cont3 < 5){
+                    cont += 1;
+                    cont3 += 1;
+                }
+                cont2 = -1;
+                cont3 = 0;
+            }
+            cont2 += 1;
+        }
+                
         //color - enemigo 
         XY_.put("Coordenadas X", coordX);
         XY_.put("Coordenadas Y", coordY);
@@ -171,10 +405,6 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         
         return lista;
     }
-    
-    
-    
-    
 
     public SpaceInvaders() {
         initComponents();
@@ -206,7 +436,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         JSONObject Sistema = new JSONObject();//contiene todos los datos, tanto del Jugador 1 como el de los enemigos/consumibles
         
         Sistema.put("Juego",isIniciar());//valor true o false que proviene del btn iniciar juego
-        Sistema.put("Color Inicio", "gris");
+        Sistema.put("Color Inicio", "negro");
         Sistema.put("Pixeles",getPixeles());
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         Sistema.put("Coordenadas de SPAWN",getSpawnsArray());//agregar lista de SpawnsArray donde spawnean enemigos o consumibles dependiendo de los requerimientos del juego
@@ -226,9 +456,52 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         t2.start();
        
     }
+    
+    public void BorrarCamino(){ //esta funcion borra los pixeles en los que estuvo el jugador 
+        JSONObject JSON = getJSON();
+        JSONObject spawns = JSON.getJSONObject("Coordenadas de SPAWN");
+        JSONArray coordX = spawns.getJSONArray("Coordenadas X");
+        JSONArray coordY = spawns.getJSONArray("Coordenadas Y");
+        JSONArray colores = spawns.getJSONArray("Colores");
+             
+        coordX.put(posY);
+        coordY.put(posX);
+        colores.put("black");
+        coordX.put(posY+1);
+        coordY.put(posX+1);
+        colores.put("black");
+        coordX.put(posY-1);
+        coordY.put(posX-1);
+        colores.put("black");
+        coordX.put(posY+1);
+        coordY.put(posX-1);
+        colores.put("black");
+        coordX.put(posY-1);
+        coordY.put(posX+1);
+        colores.put("black");
+        coordX.put(posY+1);
+        coordY.put(posX);
+        colores.put("black");
+        coordX.put(posY-1);
+        coordY.put(posX);
+        colores.put("black");
+        coordX.put(posY);
+        coordY.put(posX+1);
+        colores.put("black");
+        coordX.put(posY);
+        coordY.put(posX-1);
+        colores.put("black");
+        
+        spawns.put("Coordenadas X", coordX);
+        spawns.put("Coordenadas Y", coordY);
+        spawns.put("Colores", colores);
+        
+        setSpawnsArray(spawns);
+    }
+    
     private void setActualizar(){
         JSONObject JSON = getJSON();
-        
+
         //se definen los valores provenientes del JSON 
         Boolean juego = JSON.getBoolean("Juego");
         int pixeles = JSON.getInt("Pixeles");
@@ -262,7 +535,7 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         JSONObject Sistema = new JSONObject();//contiene todos los datos, tanto del Jugador 1 como el de los enemigos/consumibles
         
         Sistema.put("Juego",isIniciar());//valor true o false que proviene del btn iniciar juego
-        Sistema.put("Color Inicio", "gris");
+        Sistema.put("Color Inicio", "negro");
         Sistema.put("Pixeles",getPixeles());
         Sistema.put("Coordenadas Iniciales",getUpdateScreenPixel());// agregar lista de las SpawnsArray que se modifican por vista(juego)
         System.out.println("Actualizado: " + getUpdateScreenPixel());
@@ -282,12 +555,11 @@ public class SpaceInvaders extends javax.swing.JFrame implements Observer{
         int left = ActiveBtns.getInt(2);//L
         int right = ActiveBtns.getInt(3);//R
         
-        if (up == 1){posY+=1;}
-        if (down == 1){posY-=1;}
-        if (left == 1){posX-=1;}
-        if (right == 1){posX+=1;}
-        
-        
+        BorrarCamino(); //Se borran los pixeles donde anteriormente estuvo el jugador
+                  
+        if (left == 1){posX-=3;}
+        if (right == 1){posX+=3;}
+                
         // establece las nuevas coordenadas  del jugador para enviarlas a la vista
         JSONArray coords = new JSONArray();
         coords.put(posX);
